@@ -1,4 +1,4 @@
-# TapsellSDK_v3_Sample
+# Tapsell sdk v3 Sample
 
 A sample for using tapsell video ads API v3.
 
