@@ -11,8 +11,9 @@ import android.widget.Button;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
-import ir.tapsell.sdk.TapsellAdShowListener;
+import ir.tapsell.sdk.TapsellAdRequestOptions;
 import ir.tapsell.sdk.TapsellConfiguration;
+import ir.tapsell.sdk.TapsellRewardListener;
 import ir.tapsell.sdk.TapsellShowOptions;
 
 public class MainActivity extends Activity {
@@ -31,6 +32,24 @@ public class MainActivity extends Activity {
         config.setDebugMode(true);
 
         Tapsell.initialize(this, config, appKey);
+
+        Tapsell.setRewardListener(new TapsellRewardListener() {
+            @Override
+            public void onAdShowFinished(TapsellAd ad, boolean completed) {
+                Log.e("MainActivity","isCompleted? "+completed);
+                // store user
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("View was...")
+                        .setMessage("DONE!")
+                        .setNeutralButton("Nothing", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
 
         requestAdBtn = (Button) findViewById(R.id.btnRequestAd);
 
@@ -56,25 +75,7 @@ public class MainActivity extends Activity {
                     showOptions.setBackDisabled(false);
                     showOptions.setImmersiveMode(true);
                     showOptions.setRotationMode(TapsellShowOptions.ROTATION_UNLOCKED);
-                    ad.show(MainActivity.this, showOptions, new TapsellAdShowListener() {
-                        @Override
-                        public void onFinished(TapsellAd ad, boolean completed, boolean rewarded) {
-                            Log.d("Test","Video Finished!, Completed? : "+completed+", rewarded? "+rewarded);
-                            if(completed && rewarded)
-                            {
-                                new AlertDialog.Builder(MainActivity.this)
-                                        .setTitle("Reward Obtained!")
-                                        .setMessage("Congratulations! You gained some coins for viewing the video ad.")
-                                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                        .show();
-                            }
-                        }
-                    });
+                    ad.show(MainActivity.this, showOptions);
                 }
             }
         });
@@ -83,7 +84,9 @@ public class MainActivity extends Activity {
 
     private void loadAd(String zoneId) {
 
-        Tapsell.requestAd(MainActivity.this, zoneId, new TapsellAdRequestListener() {
+        TapsellAdRequestOptions options = new TapsellAdRequestOptions(TapsellAdRequestOptions.CACHE_TYPE_STREAMED);
+
+        Tapsell.requestAd(MainActivity.this, zoneId, options, new TapsellAdRequestListener() {
             @Override
             public void onError(String error) {
                 Log.d("Tapsell Sample","Error: "+error);
