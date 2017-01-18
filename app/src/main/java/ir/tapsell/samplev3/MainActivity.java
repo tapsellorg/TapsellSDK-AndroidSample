@@ -20,6 +20,8 @@ public class MainActivity extends Activity {
 
     private static final String appKey = "kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq";
 
+    private static final String myAppMainZoneId = "586f52d9bc5c284db9445beb";
+
     Button requestAdBtn, showAddBtn;
     TapsellAd ad;
 
@@ -56,7 +58,7 @@ public class MainActivity extends Activity {
         requestAdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadAd(null);
+                loadAd(myAppMainZoneId);
             }
         });
 
@@ -113,7 +115,7 @@ public class MainActivity extends Activity {
             @Override
             public void onExpiring(TapsellAd ad) {
                 showAddBtn.setEnabled(false);
-                loadAd(null);
+                loadAd(myAppMainZoneId);
             }
         });
 
