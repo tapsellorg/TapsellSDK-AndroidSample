@@ -1,9 +1,14 @@
 package ir.tapsell.samplev3;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +27,9 @@ public class MainActivity extends Activity {
 
     private static final String myAppMainZoneId = "586f52d9bc5c284db9445beb";
 
+    // Request code for checking whether the user has granted required permissions
+    private static final int permissionsRequestCode = 123;
+
     Button requestAdBtn, showAddBtn;
     TapsellAd ad;
 
@@ -30,28 +38,43 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TapsellConfiguration config = new TapsellConfiguration();
-        config.setDebugMode(true);
-
-        Tapsell.initialize(this, config, appKey);
-
-        Tapsell.setRewardListener(new TapsellRewardListener() {
-            @Override
-            public void onAdShowFinished(TapsellAd ad, boolean completed) {
-                Log.e("MainActivity","isCompleted? "+completed);
-                // store user
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("View was...")
-                        .setMessage("DONE!")
-                        .setNeutralButton("Nothing", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            int resultReadPhoneState = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+            if (resultReadPhoneState == PackageManager.PERMISSION_GRANTED)
+            {
+                onPermissionsGranted();
             }
-        });
+            else {
+                if( ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.READ_PHONE_STATE) )
+                {
+                    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{ Manifest.permission.READ_PHONE_STATE}, permissionsRequestCode);
+                                    break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    onPermissionsDenied();
+                                    break;
+                            }
+                        }
+                    };
+                    new AlertDialog.Builder(this)
+                            .setMessage("Tapsell requires permission to read your device Id showing video ads.")
+                            .setPositiveButton("OK", listener)
+                            .setNegativeButton("Cancel", listener)
+                            .create()
+                            .show();
+                }
+                else
+                {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, permissionsRequestCode);
+                }
+            }
+        } else {
+            onPermissionsGranted();
+        }
 
         requestAdBtn = (Button) findViewById(R.id.btnRequestAd);
 
@@ -82,7 +105,6 @@ public class MainActivity extends Activity {
             }
         });
     }
-
 
     private void loadAd(String zoneId) {
 
@@ -118,6 +140,51 @@ public class MainActivity extends Activity {
                 loadAd(myAppMainZoneId);
             }
         });
+
+    }
+
+    private void onPermissionsGranted()
+    {
+        TapsellConfiguration config = new TapsellConfiguration();
+        config.setDebugMode(true);
+
+        Tapsell.initialize(this, config, appKey);
+
+        Tapsell.setRewardListener(new TapsellRewardListener() {
+            @Override
+            public void onAdShowFinished(TapsellAd ad, boolean completed) {
+                Log.e("MainActivity","isCompleted? "+completed);
+                // store user
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Info")
+                        .setMessage("Video view finished")
+                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
+    }
+
+    private void onPermissionsDenied()
+    {
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        };
+
+        AlertDialog finishDialog = new AlertDialog.Builder(MainActivity.this)
+                .setMessage("Tapsell requires permission to read your device Id and location for showing video ads. You can grant this permissions in your phone settings.")
+                .setPositiveButton("OK", listener)
+                .create();
+        finishDialog.setCancelable(false);
+        finishDialog.setCanceledOnTouchOutside(false);
+        finishDialog.show();
 
     }
 
