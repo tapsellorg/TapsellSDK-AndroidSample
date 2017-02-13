@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         TapsellConfiguration config = new TapsellConfiguration();
-        config.setDebugMode(false);
+        config.setDebugMode(true);
         config.setAutoHandlePermissions(true);
 
         Tapsell.initialize(this, config, appKey);
@@ -50,8 +50,6 @@ public class MainActivity extends Activity {
                 // store user reward in local database
             }
         });
-
-        Tapsell.setMaxAllowedBandwidthUsagePercentage(MainActivity.this,50);
 
         requestAdBtn = (Button) findViewById(R.id.btnRequestAd);
 
