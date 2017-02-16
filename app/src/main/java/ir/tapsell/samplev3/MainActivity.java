@@ -51,6 +51,8 @@ public class MainActivity extends Activity {
             }
         });
 
+        Log.e("Tapsell","Version: "+Tapsell.getVersion());
+
         requestAdBtn = (Button) findViewById(R.id.btnRequestAd);
 
         requestAdBtn.setOnClickListener(new View.OnClickListener() {
