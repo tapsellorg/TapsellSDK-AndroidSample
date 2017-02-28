@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.logging.Logger;
+
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
@@ -78,6 +80,13 @@ public class MainActivity extends Activity {
                     showOptions.setImmersiveMode(true);
                     showOptions.setRotationMode(TapsellShowOptions.ROTATION_UNLOCKED);
                     ad.show(MainActivity.this, showOptions);
+                }
+                else if( ad==null ){
+                    Log.e("tapsell","null ad");
+                }
+                else {
+                    Log.e("tapsell","ad file removed? "+ad.isFileRemoved());
+                    Log.e("tapsell","invalid ad, id="+ad.getId());
                 }
             }
         });
