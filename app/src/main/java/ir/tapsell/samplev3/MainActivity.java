@@ -22,6 +22,7 @@ public class MainActivity extends Activity {
 
     private static final String appKey = "kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq";
 
+
     private static final String myAppMainZoneId = "586f52d9bc5c284db9445beb";
 
     private boolean showCompleteDialog = false;
