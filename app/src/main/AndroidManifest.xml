@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="ir.tapsell.samplev3">
+    package="ir.tapsell.samplev3">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/><!-- optional -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <!-- optional -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,15 +16,21 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="ir.tapsell.sdk.TapsellAdActivity"
-                  android:configChanges="keyboardHidden|orientation|screenSize"/>
-
+        <activity
+            android:name="org.nexage.sourcekit.vast.activity.VASTActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="ir.tapsell.sdk.TapsellAdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".NativeBannerActivity" />
+        <activity android:name=".PrerollActivity" />
+        <activity android:name=".NativeVideoActivity" />
+        <activity android:name=".NativeBannerListActivity"></activity>
     </application>
 
 </manifest>

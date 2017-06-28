@@ -3,13 +3,13 @@ package ir.tapsell.samplev3;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.logging.Logger;
-
+import ir.tapsell.samplev3.utils.TapsellConstants;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
@@ -19,11 +19,6 @@ import ir.tapsell.sdk.TapsellRewardListener;
 import ir.tapsell.sdk.TapsellShowOptions;
 
 public class MainActivity extends Activity {
-
-    private static final String appKey = "kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq";
-
-
-    private static final String myAppMainZoneId = "586f52d9bc5c284db9445beb";
 
     private boolean showCompleteDialog = false;
     private boolean rewarded = false;
@@ -39,9 +34,9 @@ public class MainActivity extends Activity {
 
         TapsellConfiguration config = new TapsellConfiguration();
         config.setDebugMode(true);
-        config.setAutoHandlePermissions(true);
+        config.setPermissionHandlerMode(TapsellConfiguration.PERMISSION_HANDLER_AUTO);
 
-        Tapsell.initialize(this, config, appKey);
+        Tapsell.initialize(this, config, TapsellConstants.appKey);
 
         Tapsell.setRewardListener(new TapsellRewardListener() {
             @Override
@@ -54,14 +49,12 @@ public class MainActivity extends Activity {
             }
         });
 
-        Log.e("Tapsell","Version: "+Tapsell.getVersion());
-
         requestAdBtn = (Button) findViewById(R.id.btnRequestAd);
 
         requestAdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadAd(myAppMainZoneId);
+                loadAd(TapsellConstants.rewardedZoneId);
             }
         });
 
@@ -91,6 +84,36 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+
+        (findViewById(R.id.btnPreroll)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PrerollActivity.class));
+            }
+        });
+
+        (findViewById(R.id.btnNativeBanner)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NativeBannerActivity.class));
+            }
+        });
+
+        (findViewById(R.id.btnNativeBannerInList)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NativeBannerListActivity.class));
+            }
+        });
+
+        (findViewById(R.id.btnNativeVideo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NativeVideoActivity.class));
+            }
+        });
+
     }
 
     private void loadAd(String zoneId) {
@@ -124,7 +147,7 @@ public class MainActivity extends Activity {
             @Override
             public void onExpiring(TapsellAd ad) {
                 showAddBtn.setEnabled(false);
-                loadAd(myAppMainZoneId);
+                loadAd(TapsellConstants.rewardedZoneId);
             }
         });
 
