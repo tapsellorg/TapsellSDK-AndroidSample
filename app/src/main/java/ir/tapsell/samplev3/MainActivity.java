@@ -73,6 +73,7 @@ public class MainActivity extends Activity {
                     showOptions.setBackDisabled(false);
                     showOptions.setImmersiveMode(true);
                     showOptions.setRotationMode(TapsellShowOptions.ROTATION_UNLOCKED);
+                    showOptions.setShowDialog(true);
                     ad.show(MainActivity.this, showOptions);
                 }
                 else if( ad==null ){

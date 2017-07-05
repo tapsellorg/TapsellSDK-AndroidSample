@@ -70,7 +70,6 @@ public class NativeBannerActivity extends Activity {
                         Log.e("Tapsell","Native Banner AdView Available");
                         adView.setBackgroundColor(Color.rgb(255,255,220));
                         parentView.addView(adView);
-                        ((TextView)adView.findViewById(R.id.tapsell_nativead_description)).setText("سلام سلام سلام ");
                         (adView.findViewById(R.id.tapsell_nativead_description)).setSelected(true);
                         mHandler.post(new Runnable() {
                             @Override
