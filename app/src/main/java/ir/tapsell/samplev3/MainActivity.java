@@ -14,6 +14,7 @@ import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
+import ir.tapsell.sdk.TapsellAdShowListener;
 import ir.tapsell.sdk.TapsellConfiguration;
 import ir.tapsell.sdk.TapsellRewardListener;
 import ir.tapsell.sdk.TapsellShowOptions;
@@ -74,7 +75,17 @@ public class MainActivity extends Activity {
                     showOptions.setImmersiveMode(true);
                     showOptions.setRotationMode(TapsellShowOptions.ROTATION_UNLOCKED);
                     showOptions.setShowDialog(true);
-                    ad.show(MainActivity.this, showOptions);
+                    ad.show(MainActivity.this, showOptions, new TapsellAdShowListener() {
+                        @Override
+                        public void onOpened(TapsellAd tapsellAd) {
+                            Log.e("tapsell","ad opened");
+                        }
+
+                        @Override
+                        public void onClosed(TapsellAd tapsellAd) {
+                            Log.e("tapsell","ad closed");
+                        }
+                    });
                 }
                 else if( ad==null ){
                     Log.e("tapsell","null ad");

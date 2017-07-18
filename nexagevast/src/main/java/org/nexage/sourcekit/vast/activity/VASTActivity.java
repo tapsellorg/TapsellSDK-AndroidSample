@@ -19,6 +19,7 @@ import java.util.TimerTask;
 import org.nexage.sourcekit.util.Assets;
 import org.nexage.sourcekit.util.HttpTools;
 import org.nexage.sourcekit.util.VASTLog;
+import org.nexage.sourcekit.vast.R;
 import org.nexage.sourcekit.vast.VASTPlayer;
 import org.nexage.sourcekit.vast.model.TRACKING_EVENTS_TYPE;
 import org.nexage.sourcekit.vast.model.VASTModel;
@@ -40,6 +41,7 @@ import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -341,7 +343,7 @@ public class VASTActivity extends Activity implements OnCompletionListener,
 		if (clickThroughUrl != null && clickThroughUrl.length() > 0) {
 
 			LayoutParams params = new RelativeLayout.LayoutParams(size, size);
-			params.addRule(RelativeLayout.LEFT_OF, 22);
+			params.addRule(RelativeLayout.LEFT_OF, R.id.nexage_vast_close_button);
 
 			mInfoButton = new ImageButton(this);
 
@@ -372,7 +374,7 @@ public class VASTActivity extends Activity implements OnCompletionListener,
 		params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
 		mCloseButton = new ImageButton(this);
-		mCloseButton.setId(22);
+		mCloseButton.setId(R.id.nexage_vast_close_button);
 
 		Drawable drawable = Assets.getDrawableFromBase64(getResources(), Assets.exit);
 
@@ -465,7 +467,7 @@ public class VASTActivity extends Activity implements OnCompletionListener,
 		try {
 			Uri uri = Uri.parse(clickThroughUrl);
 			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-			ResolveInfo resolvable = getPackageManager().resolveActivity(intent, PackageManager.GET_INTENT_FILTERS);
+			ResolveInfo resolvable = getPackageManager().resolveActivity(intent, PackageManager.GET_RESOLVED_FILTER);
 			if(resolvable == null) {
 				VASTLog.e(TAG, "Clickthrough error occured, uri unresolvable");
 				if (mCurrentVideoPosition>=mMediaPlayer.getCurrentPosition()*0.99) {
