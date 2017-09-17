@@ -28,10 +28,17 @@
             />
 
         <Button
-            android:id="@+id/btnPreroll"
+            android:id="@+id/btnPrerollNexage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Preroll Ads"
+            android:text="Preroll Ads (Nexage)"
+            />
+
+        <Button
+            android:id="@+id/btnPrerollExoPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preroll Ads (ExoPlayer)"
             />
 
         <Button

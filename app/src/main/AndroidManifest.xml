@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ir.tapsell.samplev3">
+
+    <uses-sdk tools:overrideLibrary="com.google.android.gms, com.google.android.gms.ads, com.google.android.gms.ads.impl, com.google.android.gms.clearcut, com.google.android.gms.base, com.google.android.gms.tasks, com.google.android.gms.gass, com.google.android.libraries.mediaframework" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +33,8 @@
         <activity android:name=".NativeBannerActivity" />
         <activity android:name=".PrerollActivity" />
         <activity android:name=".NativeVideoActivity" />
-        <activity android:name=".NativeBannerListActivity"></activity>
+        <activity android:name=".NativeBannerListActivity" />
+        <activity android:name=".ExoplayerVastSample"></activity>
     </application>
 
 </manifest>

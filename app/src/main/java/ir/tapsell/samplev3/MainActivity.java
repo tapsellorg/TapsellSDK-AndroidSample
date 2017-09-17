@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import ir.tapsell.samplev3.utils.TapsellConstants;
 import ir.tapsell.sdk.Tapsell;
@@ -98,10 +100,24 @@ public class MainActivity extends Activity {
         });
 
 
-        (findViewById(R.id.btnPreroll)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.btnPrerollNexage)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, PrerollActivity.class));
+            }
+        });
+
+        (findViewById(R.id.btnPrerollExoPlayer)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN)
+                {
+                    startActivity(new Intent(MainActivity.this, ExoplayerVastSample.class));
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "ExoPlayer is only available in android JellyBean and above.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

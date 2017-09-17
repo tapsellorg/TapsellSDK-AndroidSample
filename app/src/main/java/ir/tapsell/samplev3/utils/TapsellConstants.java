@@ -1,9 +1,5 @@
 package ir.tapsell.samplev3.utils;
 
-/**
- * Created by Sina Rezaei (sinarezaei1991@gmail.com) on 6/28/2017.
- */
-
 public class TapsellConstants {
 
     public static final String appKey = "kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq";
