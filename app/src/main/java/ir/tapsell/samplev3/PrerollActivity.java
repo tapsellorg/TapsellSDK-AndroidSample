@@ -21,6 +21,7 @@ public class PrerollActivity extends Activity implements VASTPlayer.VASTPlayerLi
         vastPlayer = new VASTPlayer(this,this);
         String vastUrl = TapsellVast.getVastUrl(this, TapsellConstants.prerollZoneId,
                 TapsellVast.PREROLL_TYPE_LONG,TapsellVast.VAST_VERSION_3);
+        Log.e("PrerollActivity","vastUrl: "+vastUrl);
         vastPlayer.loadVideoWithUrl(vastUrl);
     }
 

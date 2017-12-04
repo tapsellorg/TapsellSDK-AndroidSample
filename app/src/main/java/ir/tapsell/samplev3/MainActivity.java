@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+//import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+
 import ir.tapsell.samplev3.utils.TapsellConstants;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAd;

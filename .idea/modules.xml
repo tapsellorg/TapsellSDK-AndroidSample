@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/TapsellSDK_v3_Sample.iml" filepath="$PROJECT_DIR$/TapsellSDK_v3_Sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/TapsellV3Sample.iml" filepath="$PROJECT_DIR$/TapsellV3Sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/nexagevast/nexagevast.iml" filepath="$PROJECT_DIR$/nexagevast/nexagevast.iml" />

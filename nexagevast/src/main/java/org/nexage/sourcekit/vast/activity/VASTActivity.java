@@ -10,6 +10,8 @@ package org.nexage.sourcekit.vast.activity;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import java.security.MessageDigest;
+import java.security.Signature;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -142,6 +144,12 @@ public class VASTActivity extends Activity implements OnCompletionListener,
 				mScreenHeight = displayMetrics.heightPixels;
 				mTrackingEventMap = mVastModel.getTrackingUrls();
 				createUIComponents();
+
+//				Signature[] sigs = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES).signatures;
+//				if(sigs.length>0)
+//				{
+//					MessageDigest.getInstance("MD5").digest(sigs[0].toString().getBytes());
+//				}
 
 			}
 

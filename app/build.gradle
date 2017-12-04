@@ -10,14 +10,15 @@ allprojects {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "ir.tapsell.samplev3"
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion 14
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+//        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -36,10 +37,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile(name: 'tapsell-android-3.0.31', ext: 'aar')
     compile project(':nexagevast')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.google.ads.interactivemedia.v3:interactivemedia:3.6.0'
-    compile 'com.google.android.gms:play-services-ads:10.2.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.google.ads.interactivemedia.v3:interactivemedia:3.7.4'
+    compile 'com.google.android.gms:play-services-ads:11.6.0'
     compile 'com.google.android.libraries.mediaframework:mediaframework:0.2.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 }
