@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        requestAdBtn = (Button) findViewById(R.id.btnRequestAd);
+        requestAdBtn = findViewById(R.id.btnRequestAd);
 
         requestAdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        showAddBtn = (Button) findViewById(R.id.btnShowAd);
+        showAddBtn = findViewById(R.id.btnShowAd);
 
         showAddBtn.setEnabled(false);
 
