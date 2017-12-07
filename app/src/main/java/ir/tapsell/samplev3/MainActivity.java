@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TapsellConfiguration config = new TapsellConfiguration();
+        TapsellConfiguration config = new TapsellConfiguration(MainActivity.this);
         config.setDebugMode(true);
         config.setPermissionHandlerMode(TapsellConfiguration.PERMISSION_HANDLER_AUTO);
 
@@ -141,6 +141,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, NativeVideoActivity.class));
+            }
+        });
+
+        (findViewById(R.id.btnStandardBanner)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, StandardBannerActivity.class));
             }
         });
 

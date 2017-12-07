@@ -20,12 +20,16 @@
 -keepattributes *Annotation*
 -keepattributes EnclosingMethod
 -keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
--keep class com.google.gson.** { *; }
+-keep class ir.tapsell.sdk.gson.stream.** { *; }
+-keep class ir.tapsell.sdk.gson.** { *; }
 -keepclassmembers enum * { *; }
 -keep class **.R$* { *; }
 -keep interface ir.tapsell.sdk.NoProguard
 -keep class * implements ir.tapsell.sdk.NoProguard { *; }
 -keep interface * extends ir.tapsell.sdk.NoProguard { *; }
 -keepnames class * extends android.app.Activity
--dontwarn com.unity3d.player.**
+
+-keep class com.google.obf.** { *; }
+-keep interface com.google.obf.** { *; }
+-keep class com.google.ads.interactivemedia.** { *; }
+-keep interface com.google.ads.interactivemedia.** { *; }

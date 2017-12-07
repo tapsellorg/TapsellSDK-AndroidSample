@@ -62,7 +62,12 @@
             android:text="Native Video Ads"
             />
 
-
+        <Button
+            android:id="@+id/btnStandardBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Standard Banner Ads"
+            />
 
     </LinearLayout>
 </ScrollView>

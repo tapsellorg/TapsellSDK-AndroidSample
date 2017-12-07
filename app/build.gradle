@@ -22,7 +22,7 @@ android {
     }
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
@@ -33,13 +33,15 @@ android {
 }
 
 
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(name: 'tapsell-android-3.0.31', ext: 'aar')
+    compile(name: 'tapsell-android-3.0.36', ext: 'aar')
     compile project(':nexagevast')
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.google.ads.interactivemedia.v3:interactivemedia:3.7.4'
-    compile 'com.google.android.gms:play-services-ads:11.6.0'
+    compile 'com.google.android.gms:play-services-ads:11.6.2'
     compile 'com.google.android.libraries.mediaframework:mediaframework:0.2.1'
+
 }

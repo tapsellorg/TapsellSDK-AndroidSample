@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PersistableBundle;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -132,10 +133,12 @@ public class ExoplayerVastSample extends Activity implements AdErrorEvent.AdErro
 
         // Create the ads request.
         AdsRequest request = mSdkFactory.createAdsRequest();
-        request.setAdTagUrl(TapsellVast.getVastUrl(ExoplayerVastSample.this,
+        String adTagUrl = TapsellVast.getVastUrl(ExoplayerVastSample.this,
                 TapsellConstants.prerollZoneId,
                 TapsellVast.PREROLL_TYPE_LONG,
-                TapsellVast.VAST_VERSION_3));
+                TapsellVast.VAST_VERSION_3);
+        Log.e("TapsellVast IMA SDK","TapsellVast Ad Tag Url: "+adTagUrl);
+        request.setAdTagUrl(adTagUrl);
         request.setAdDisplayContainer(adDisplayContainer);
         request.setContentProgressProvider(new ContentProgressProvider() {
             @Override
