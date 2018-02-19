@@ -1,1 +1,1 @@
-include ':app', ':nexagevast'
+include ':app', ':nexagevast', ':tapsellsdk-android-3.1'

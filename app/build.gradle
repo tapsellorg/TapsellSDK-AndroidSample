@@ -1,47 +1,45 @@
 apply plugin: 'com.android.application'
 
-allprojects {
-    repositories {
-        jcenter()
-        flatDir {
-            dirs 'libs'
+android {
+    flavorDimensions "default"
+    signingConfigs {
+        config {
+            keyAlias 'Tapsell'
+            keyPassword 'T@pS3ll'
+            storeFile file('../generalkeystore.jks')
+            storePassword 'T@pS3ll'
         }
     }
-}
-
-android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
     defaultConfig {
-        applicationId "ir.tapsell.samplev3"
-        minSdkVersion 14
-        targetSdkVersion 26
+        applicationId "ir.tapsell.sample"
+
+        minSdkVersion 16
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-//        multiDexEnabled true
+
+        resValue "string", "app_name", "Tapsell Sample v3"
     }
     buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            minifyEnabled true
         }
     }
 }
 
-
-
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(name: 'tapsell-android-3.0.36', ext: 'aar')
-    compile project(':nexagevast')
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.google.ads.interactivemedia.v3:interactivemedia:3.7.4'
-    compile 'com.google.android.gms:play-services-ads:11.6.2'
-    compile 'com.google.android.libraries.mediaframework:mediaframework:0.2.1'
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation project(':nexagevast')
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:design:27.0.2'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
+    implementation project(':tapsellsdk-android-3.1')
 }

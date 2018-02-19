@@ -7,7 +7,7 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
-# Add any project specific keep options here:
+# Add any project specific keep showOptions here:
 
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
@@ -15,13 +15,15 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-
 -keepattributes Signature
 -keepattributes *Annotation*
 -keepattributes EnclosingMethod
+-keepattributes InnerClasses
+# Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class ir.tapsell.sdk.gson.stream.** { *; }
 -keep class ir.tapsell.sdk.gson.** { *; }
+
 -keepclassmembers enum * { *; }
 -keep class **.R$* { *; }
 -keep interface ir.tapsell.sdk.NoProguard
@@ -29,7 +31,3 @@
 -keep interface * extends ir.tapsell.sdk.NoProguard { *; }
 -keepnames class * extends android.app.Activity
 
--keep class com.google.obf.** { *; }
--keep interface com.google.obf.** { *; }
--keep class com.google.ads.interactivemedia.** { *; }
--keep interface com.google.ads.interactivemedia.** { *; }

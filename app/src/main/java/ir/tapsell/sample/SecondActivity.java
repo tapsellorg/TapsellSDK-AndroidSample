@@ -1,28 +1,28 @@
-package ir.tapsell.samplev3;
+package ir.tapsell.sample;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import org.nexage.sourcekit.vast.VASTPlayer;
 
-import ir.tapsell.samplev3.utils.TapsellConstants;
 import ir.tapsell.sdk.vast.TapsellVast;
 
-public class PrerollActivity extends Activity implements VASTPlayer.VASTPlayerListener{
+public class SecondActivity extends AppCompatActivity implements VASTPlayer.VASTPlayerListener{
 
-    private VASTPlayer vastPlayer;
+    VASTPlayer vastPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preroll);
+        setContentView(R.layout.activity_second);
+
 
         vastPlayer = new VASTPlayer(this,this);
-        String vastUrl = TapsellVast.getVastUrl(this, TapsellConstants.prerollZoneId,
-                TapsellVast.PREROLL_TYPE_LONG,TapsellVast.VAST_VERSION_3);
-        Log.e("PrerollActivity","vastUrl: "+vastUrl);
-        vastPlayer.loadVideoWithUrl(vastUrl);
+        String url = TapsellVast.getVastUrl(this,G.vastZoneId,TapsellVast.PREROLL_TYPE_LONG,TapsellVast.VAST_VERSION_3);
+        Log.e("vast","vast url: "+url);
+        vastPlayer.loadVideoWithUrl(url);
+
     }
 
     @Override
