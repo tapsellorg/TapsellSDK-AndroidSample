@@ -7,10 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".G"
+        android:name=".tapsellApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -26,19 +26,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="ir.tapsell.sdk.TapsellAdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".SecondActivity" />
+
         <activity
             android:name="org.nexage.sourcekit.vast.activity.VASTActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity android:name=".NativeBannerActivity" />
+
         <activity android:name=".NativeVideoActivity" />
+
         <activity android:name=".NativeBannerInList" />
+
         <!-- <receiver android:name="ir.tapsell.sdk.receiver.TapsellReceiver" android:enabled="true" android:exported="true"/> -->
+
         <activity android:name=".WebBannerActivity" />
-        <activity android:name=".NativeVideoInList"/>
+
+        <activity android:name=".NativeVideoInList" />
+
     </application>
 
 </manifest>

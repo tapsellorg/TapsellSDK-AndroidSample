@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +34,7 @@ public class NativeVideoInList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_video_in_list);
 
-        RecyclerView rvItems = (RecyclerView) findViewById(R.id.rvItems);
+        RecyclerView rvItems = findViewById(R.id.rvItems);
         rvItems.setLayoutManager(new LinearLayoutManager(NativeVideoInList.this, LinearLayoutManager.VERTICAL, false));
         rvItems.setAdapter(new NativeVideoInList.MyAdapter(NativeVideoInList.this));
     }
@@ -43,7 +44,7 @@ public class NativeVideoInList extends AppCompatActivity {
 
         public TapsellListItemHolder(View itemView) {
             super(itemView);
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
         }
 
         public void bindView(int index) {
@@ -58,7 +59,7 @@ public class NativeVideoInList extends AppCompatActivity {
 
         public TapsellListItemAdHolder(View itemView, Context context) {
             super(itemView);
-            adContainer = (FrameLayout) itemView.findViewById(R.id.adContainer);
+            adContainer = itemView.findViewById(R.id.adContainer);
             mContext = context;
         }
 
@@ -67,7 +68,7 @@ public class NativeVideoInList extends AppCompatActivity {
             ad.setCompletionListener(new TapsellNativeVideoAdCompletionListener() {
                 @Override
                 public void onAdShowFinished(String adId) {
-                    Log.e("Tapsell","onAdShowFinished: "+adId);
+                    Log.e("Tapsell", "onAdShowFinished: " + adId);
                 }
             });
             ad.addToParentView(adContainer);
@@ -94,7 +95,7 @@ public class NativeVideoInList extends AppCompatActivity {
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == VIEW_TYPE_AD) {
                 return new NativeVideoInList.TapsellListItemAdHolder(mInflater.inflate(R.layout.list_large_ad_item, parent, false), mContext);
             } else {
@@ -110,7 +111,7 @@ public class NativeVideoInList extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
             if (getItemViewType(position) == VIEW_TYPE_AD) {
                 if (ads.containsKey(position)) {
                     ((NativeVideoInList.TapsellListItemAdHolder) holder).bindView(ads.get(position));
@@ -121,38 +122,38 @@ public class NativeVideoInList extends AppCompatActivity {
                             .setAppInstallationViewTemplate(R.layout.tapsell_app_installation_video_ad_template)
                             .setAutoStartVideoOnScreenEnabled(true)
                             .setFullscreenBtnEnabled(false)
-                            .loadAd(NativeVideoInList.this, G.nativeVideoZoneId,
+                            .loadAd(NativeVideoInList.this, BuildConfig.tapsellNativeVideoZoneId,
                                     new TapsellNativeVideoAdLoadListener() {
 
-                                @Override
-                                public void onNoNetwork() {
-                                    Log.e("Tapsell", "No Network Available");
-                                }
-
-                                @Override
-                                public void onNoAdAvailable() {
-                                    Log.e("Tapsell", "No Native Banner Ad Available!");
-                                }
-
-                                @Override
-                                public void onError(final String error) {
-                                    Log.e("Tapsell", "Error: " + error);
-                                }
-
-                                @Override
-                                public void onRequestFilled(TapsellNativeVideoAd tapsellNativeVideoAd) {
-                                    Log.e("Tapsell", "Native Banner AdView Available");
-                                    ads.put(holder.getAdapterPosition(), tapsellNativeVideoAd);
-                                    ((NativeVideoInList.TapsellListItemAdHolder) holder).bindView(tapsellNativeVideoAd);
-                                    mHandler.post(new Runnable() {
                                         @Override
-                                        public void run() {
-                                            Toast.makeText(NativeVideoInList.this, "onRequestFilled", Toast.LENGTH_LONG).show();
+                                        public void onNoNetwork() {
+                                            Log.e("Tapsell", "No Network Available");
                                         }
-                                    });
-                                }
 
-                            });
+                                        @Override
+                                        public void onNoAdAvailable() {
+                                            Log.e("Tapsell", "No Native Banner Ad Available!");
+                                        }
+
+                                        @Override
+                                        public void onError(final String error) {
+                                            Log.e("Tapsell", "Error: " + error);
+                                        }
+
+                                        @Override
+                                        public void onRequestFilled(TapsellNativeVideoAd tapsellNativeVideoAd) {
+                                            Log.e("Tapsell", "Native Banner AdView Available");
+                                            ads.put(holder.getAdapterPosition(), tapsellNativeVideoAd);
+                                            ((NativeVideoInList.TapsellListItemAdHolder) holder).bindView(tapsellNativeVideoAd);
+                                            mHandler.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(NativeVideoInList.this, "onRequestFilled", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                        }
+
+                                    });
                 }
             } else {
                 ((NativeVideoInList.TapsellListItemHolder) holder).bindView(position);

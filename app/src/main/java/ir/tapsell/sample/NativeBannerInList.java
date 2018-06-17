@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,7 @@ public class NativeBannerInList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_banner_in_list);
 
-        RecyclerView rvItems = (RecyclerView) findViewById(R.id.rvItems);
+        RecyclerView rvItems = findViewById(R.id.rvItems);
         rvItems.setLayoutManager(new LinearLayoutManager(NativeBannerInList.this, LinearLayoutManager.VERTICAL, false));
         rvItems.setAdapter(new MyAdapter(NativeBannerInList.this));
     }
@@ -40,9 +41,9 @@ public class NativeBannerInList extends AppCompatActivity {
     public class TapsellListItemHolder extends RecyclerView.ViewHolder {
         TextView tvTitle;
 
-        public TapsellListItemHolder(View itemView) {
+        TapsellListItemHolder(View itemView) {
             super(itemView);
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
         }
 
         public void bindView(int index) {
@@ -55,9 +56,9 @@ public class NativeBannerInList extends AppCompatActivity {
         FrameLayout adContainer;
         Context mContext;
 
-        public TapsellListItemAdHolder(View itemView, Context context) {
+        TapsellListItemAdHolder(View itemView, Context context) {
             super(itemView);
-            adContainer = (FrameLayout) itemView.findViewById(R.id.adContainer);
+            adContainer = itemView.findViewById(R.id.adContainer);
             mContext = context;
         }
 
@@ -81,13 +82,14 @@ public class NativeBannerInList extends AppCompatActivity {
 
         private final Map<Integer, TapsellNativeBannerAd> ads = new HashMap<>();
 
-        public MyAdapter(Context context) {
+        MyAdapter(Context context) {
             mContext = context;
             mInflater = LayoutInflater.from(context);
         }
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == VIEW_TYPE_AD) {
                 return new TapsellListItemAdHolder(mInflater.inflate(R.layout.list_ad_item, parent, false), mContext);
             } else {
@@ -103,7 +105,7 @@ public class NativeBannerInList extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
             if (getItemViewType(position) == VIEW_TYPE_AD) {
                 if (ads.containsKey(position)) {
                     ((TapsellListItemAdHolder) holder).bindView(ads.get(position));
@@ -111,7 +113,7 @@ public class NativeBannerInList extends AppCompatActivity {
                     ((TapsellListItemAdHolder) holder).clear();
                     new TapsellNativeBannerAdLoader.Builder()
                             .setContentViewTemplate(R.layout.tapsell_small_content_banner_ad_template)
-                            .loadAd(NativeBannerInList.this, G.nativeBannerZoneId, ((TapsellListItemAdHolder) holder).adContainer, new TapsellNativeBannerAdLoadListener() {
+                            .loadAd(NativeBannerInList.this, BuildConfig.tapsellNativeBannerZoneId, new TapsellNativeBannerAdLoadListener() {
 
                                 @Override
                                 public void onNoNetwork() {

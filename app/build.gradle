@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    flavorDimensions "default"
     signingConfigs {
         config {
             keyAlias 'Tapsell'
@@ -10,8 +9,10 @@ android {
             storePassword 'T@pS3ll'
         }
     }
+
     compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    buildToolsVersion '27.0.3'
+
     defaultConfig {
         applicationId "ir.tapsell.sample"
 
@@ -21,7 +22,16 @@ android {
         versionName "1.0"
 
         resValue "string", "app_name", "Tapsell Sample v3"
+
+        buildConfigField "String" , "tapsellSampleAppKey","\"kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq\""
+        buildConfigField "String" , "tapsellVideoZoneId","\"5a5dbd5cc21bf000010d1686\""
+        buildConfigField "String" , "tapsellInterstitialBannerZoneId","\"5a3f5063fca4f000014b70a8\""
+        buildConfigField "String" , "tapsellNativeVideoZoneId","\"5953bd064684652dd8fcb02e\""
+        buildConfigField "String" , "tapsellNativeBannerZoneId","\"5953bc774684652dd8fc937e\""
+        buildConfigField "String" , "tapsellVastZoneId","\"5953bb294684652dd8fc4f9f\""
+        buildConfigField "String" , "tapsellStandardBannerZoneId","\"5a28f47539086d0001670416\""
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -29,17 +39,19 @@ android {
             signingConfig signingConfigs.config
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
         }
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.android.gms:play-services-ads:11.8.0'
     implementation project(':nexagevast')
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:design:27.0.2'
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
-    implementation project(':tapsellsdk-android-3.1')
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:customtabs:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    
+    implementation 'ir.tapsell.sdk:tapsell-sdk-android:3.1.6'
 }

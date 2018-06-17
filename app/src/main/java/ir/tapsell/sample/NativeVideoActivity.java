@@ -19,8 +19,6 @@ public class NativeVideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_video);
 
-        LinearLayout adParent = (LinearLayout) findViewById(R.id.adParent);
-
         new TapsellNativeVideoAdLoader.Builder()
                 .setContentViewTemplate(R.layout.tapsell_content_video_ad_template)
                 .setAppInstallationViewTemplate(R.layout.tapsell_app_installation_video_ad_template)
@@ -32,7 +30,7 @@ public class NativeVideoActivity extends AppCompatActivity {
                         .setFullscreenIcon(R.drawable.full2)
                         .setPlayIcon(R.drawable.play2)
                         .create())
-                .loadAd(NativeVideoActivity.this, G.nativeVideoZoneId, new TapsellNativeVideoAdLoadListener() {
+                .loadAd(NativeVideoActivity.this, BuildConfig.tapsellNativeVideoZoneId, new TapsellNativeVideoAdLoadListener() {
 
                     @Override
                     public void onNoNetwork() {
@@ -54,13 +52,13 @@ public class NativeVideoActivity extends AppCompatActivity {
                         tapsellNativeVideoAd.setCompletionListener(new TapsellNativeVideoAdCompletionListener() {
                             @Override
                             public void onAdShowFinished(String adId) {
-                                Log.e("Tapsell","onAdShowFinished: "+adId);
+                                Log.e("Tapsell", "onAdShowFinished: " + adId);
                             }
                         });
                         tapsellNativeVideoAd.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Log.e("Tapsell","Native video clicked!");
+                                Log.e("Tapsell", "Native video clicked!");
                             }
                         });
                         tapsellNativeVideoAd.addToParentView((LinearLayout) findViewById(R.id.adParent));

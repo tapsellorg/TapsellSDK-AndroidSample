@@ -16,7 +16,6 @@ public class WebBannerActivity extends AppCompatActivity {
 
         TapsellBannerView banner1 = findViewById(R.id.banner1);
 
-        banner1.loadAd(WebBannerActivity.this, G.standardBannerZoneId, TapsellBannerType.BANNER_320x100);
-
+        banner1.loadAd(WebBannerActivity.this, BuildConfig.tapsellStandardBannerZoneId, TapsellBannerType.BANNER_320x100);
     }
 }

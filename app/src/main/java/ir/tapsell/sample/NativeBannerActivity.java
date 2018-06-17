@@ -8,8 +8,6 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import ir.tapsell.sdk.Tapsell;
-import ir.tapsell.sdk.TapsellConfiguration;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerAd;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoadListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoader;
@@ -27,7 +25,7 @@ public class NativeBannerActivity extends AppCompatActivity {
         new TapsellNativeBannerAdLoader.Builder()
                 .setContentViewTemplate(R.layout.tapsell_content_banner_ad_template)
                 .setAppInstallationViewTemplate(R.layout.tapsell_app_installation_banner_ad_template)
-                .loadAd(NativeBannerActivity.this, G.nativeBannerZoneId, new TapsellNativeBannerAdLoadListener() {
+                .loadAd(NativeBannerActivity.this, BuildConfig.tapsellNativeBannerZoneId, new TapsellNativeBannerAdLoadListener() {
 
                     @Override
                     public void onNoNetwork() {
@@ -68,6 +66,7 @@ public class NativeBannerActivity extends AppCompatActivity {
                                 adV.getStateBundle(),
                                 R.layout.tapsell_content_banner_ad_template,
                                 R.layout.tapsell_app_installation_banner_ad_template);
+
                         Log.e("Tapsell", "Native Banner AdView Available");
                         ad.addToParentView((LinearLayout) findViewById(R.id.adParent));
                         (ad.findViewById(R.id.tapsell_nativead_description)).setSelected(true);

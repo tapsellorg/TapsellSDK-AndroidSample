@@ -68,32 +68,32 @@ public class MainActivity extends AppCompatActivity {
         onPermissionsGranted();
         getCity();
 
-        requestCatchedVideoAdBtn = (Button) findViewById(R.id.btnRequestVideoAd);
-        requestStreamVideoAdBtn = (Button) findViewById(R.id.btnRequestStreamVideoAd);
-        requestBannerAdButton = (Button) findViewById(R.id.btnRequestBannerAd);
+        requestCatchedVideoAdBtn = findViewById(R.id.btnRequestVideoAd);
+        requestStreamVideoAdBtn = findViewById(R.id.btnRequestStreamVideoAd);
+        requestBannerAdButton = findViewById(R.id.btnRequestBannerAd);
 
         requestCatchedVideoAdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadAd(G.videoZoneId, TapsellAdRequestOptions.CACHE_TYPE_CACHED);
+                loadAd(BuildConfig.tapsellVideoZoneId, TapsellAdRequestOptions.CACHE_TYPE_CACHED);
             }
         });
 
         requestStreamVideoAdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadAd(G.videoZoneId, TapsellAdRequestOptions.CACHE_TYPE_STREAMED);
+                loadAd(BuildConfig.tapsellVideoZoneId, TapsellAdRequestOptions.CACHE_TYPE_STREAMED);
             }
         });
 
         requestBannerAdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadAd(G.interstitialBannerZoneId, TapsellAdRequestOptions.CACHE_TYPE_STREAMED);
+                loadAd(BuildConfig.tapsellInterstitialBannerZoneId, TapsellAdRequestOptions.CACHE_TYPE_STREAMED);
             }
         });
 
-        secondActivityBtn = (Button) findViewById(R.id.btnSecondActivity);
+        secondActivityBtn = findViewById(R.id.btnSecondActivity);
 
         secondActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        showAddBtn = (Button) findViewById(R.id.btnShowAd);
+        showAddBtn = findViewById(R.id.btnShowAd);
 
         showAddBtn.setEnabled(false);
 
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button nativeBanner = (Button) findViewById(R.id.btnNativeBanner);
+        Button nativeBanner = findViewById(R.id.btnNativeBanner);
         nativeBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button nativeBannerList = (Button) findViewById(R.id.btnNativeBannerInList);
+        Button nativeBannerList = findViewById(R.id.btnNativeBannerInList);
         nativeBannerList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button nativeVideo = (Button) findViewById(R.id.btnNativeVideo);
+        Button nativeVideo = findViewById(R.id.btnNativeVideo);
         nativeVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button nativeVideoList = (Button) findViewById(R.id.btnNativeVideoInList);
+        Button nativeVideoList = findViewById(R.id.btnNativeVideoInList);
         nativeVideoList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button nativeWebBanner = (Button) findViewById(R.id.btnWebBanner);
+        Button nativeWebBanner = findViewById(R.id.btnWebBanner);
         nativeWebBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
