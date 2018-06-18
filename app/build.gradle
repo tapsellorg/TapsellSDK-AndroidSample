@@ -1,15 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'Tapsell'
-            keyPassword 'T@pS3ll'
-            storeFile file('../generalkeystore.jks')
-            storePassword 'T@pS3ll'
-        }
-    }
-
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
@@ -37,7 +28,6 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
 
         debug {
