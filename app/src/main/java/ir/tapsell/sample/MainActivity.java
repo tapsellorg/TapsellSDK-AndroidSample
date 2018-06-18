@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Request code for checking whether the user has granted required permissions
 //    private static final int permissionsRequestCode = 123;
-    Button requestCatchedVideoAdBtn, requestStreamVideoAdBtn, requestBannerAdButton, showAddBtn, secondActivityBtn;
+    Button requestCatchedVideoAdBtn, requestStreamVideoAdBtn, requestBannerAdButton, showAddBtn;
     TapsellAd ad;
     ProgressDialog progressDialog;
 
@@ -90,16 +90,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadAd(BuildConfig.tapsellInterstitialBannerZoneId, TapsellAdRequestOptions.CACHE_TYPE_STREAMED);
-            }
-        });
-
-        secondActivityBtn = findViewById(R.id.btnSecondActivity);
-
-        secondActivityBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                startActivity(intent);
             }
         });
 

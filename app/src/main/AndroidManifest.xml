@@ -30,7 +30,6 @@
         <activity
             android:name="ir.tapsell.sdk.TapsellAdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".SecondActivity" />
 
         <activity
             android:name="org.nexage.sourcekit.vast.activity.VASTActivity"

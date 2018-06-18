@@ -1,1 +1,1 @@
-include ':app', ':nexagevast'
+include ':app'
