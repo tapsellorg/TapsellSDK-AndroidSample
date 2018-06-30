@@ -44,5 +44,5 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     
-    implementation 'ir.tapsell.sdk:tapsell-sdk-android:3.1.6'
+    implementation 'ir.tapsell.sdk:tapsell-sdk-android:3.1.9'
 }
