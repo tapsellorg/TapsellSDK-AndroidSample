@@ -40,7 +40,6 @@
                     android:id="@+id/btnRequestStreamVideoAd"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnShowAd"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:text="Request STREAM Video Ad" />
@@ -49,9 +48,15 @@
                     android:id="@+id/btnRequestVideoAd"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnShowAd"
                     android:layout_gravity="center_horizontal"
                     android:text="Request catched Video Ad" />
+
+                <Button
+                    android:id="@+id/btnRequestInterstitialVideo"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Request Interstitial Video Ad" />
 
                 <Button
                     android:id="@+id/btnRequestBannerAd"
@@ -59,15 +64,24 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
-                    android:text="Request Banner Ad" />
+                    android:text="Request Interstitial Banner" />
 
             </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnSecondActivity"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llRequestAd"
+                android:layout_centerHorizontal="true"
+                android:text="VAST Activity" />
 
             <Button
                 android:id="@+id/btnNativeBanner"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/llRequestAd"
+                android:layout_below="@+id/btnSecondActivity"
                 android:layout_centerHorizontal="true"
                 android:text="Native Banner" />
 
@@ -78,6 +92,7 @@
                 android:layout_below="@+id/btnNativeBanner"
                 android:layout_centerHorizontal="true"
                 android:text="Native Banner In List" />
+
 
             <Button
                 android:id="@+id/btnNativeVideo"

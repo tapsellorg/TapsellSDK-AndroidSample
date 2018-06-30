@@ -17,6 +17,7 @@ android {
         buildConfigField "String" , "tapsellSampleAppKey","\"kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq\""
         buildConfigField "String" , "tapsellVideoZoneId","\"5a5dbd5cc21bf000010d1686\""
         buildConfigField "String" , "tapsellInterstitialBannerZoneId","\"5a3f5063fca4f000014b70a8\""
+        buildConfigField "String" , "tapsellInterstitialVideoZoneId","\"5af292bef5a56d000196e9c8\""
         buildConfigField "String" , "tapsellNativeVideoZoneId","\"5953bd064684652dd8fcb02e\""
         buildConfigField "String" , "tapsellNativeBannerZoneId","\"5953bc774684652dd8fc937e\""
         buildConfigField "String" , "tapsellVastZoneId","\"5953bb294684652dd8fc4f9f\""
@@ -45,4 +46,6 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     
     implementation 'ir.tapsell.sdk:tapsell-sdk-android:3.1.9'
+    implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.8.7'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
 }

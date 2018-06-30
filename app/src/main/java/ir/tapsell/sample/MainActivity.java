@@ -13,7 +13,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +26,7 @@ import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import java.util.List;
 import java.util.Locale;
 
+import ir.tapsell.sample.vast.VASTActivity;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Request code for checking whether the user has granted required permissions
 //    private static final int permissionsRequestCode = 123;
-    Button requestCatchedVideoAdBtn, requestStreamVideoAdBtn, requestBannerAdButton, showAddBtn;
+    Button requestCatchedVideoAdBtn, requestStreamVideoAdBtn, requestInterstitialBannerAdBtn,
+            requestBannerAdButton, showAddBtn, vastActivityBtn;
     TapsellAd ad;
     ProgressDialog progressDialog;
 
@@ -48,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         progressDialog = new ProgressDialog(this);
-        String android_id = Settings.Secure.getString(MainActivity.this.getContentResolver(), Settings.Secure.ANDROID_ID);
-        Log.e("Tapsell", "android id:" + android_id);
+//        String android_id = Settings.Secure.getString(MainActivity.this.getContentResolver(), Settings.Secure.ANDROID_ID);
+//        Log.e("Tapsell", "android id:" + android_id);
 
         new Thread(new Runnable() {
             @Override
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         requestCatchedVideoAdBtn = findViewById(R.id.btnRequestVideoAd);
         requestStreamVideoAdBtn = findViewById(R.id.btnRequestStreamVideoAd);
+        requestInterstitialBannerAdBtn = findViewById(R.id.btnRequestInterstitialVideo);
         requestBannerAdButton = findViewById(R.id.btnRequestBannerAd);
 
         requestCatchedVideoAdBtn.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +96,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        requestInterstitialBannerAdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadAd(BuildConfig.tapsellInterstitialVideoZoneId, TapsellAdRequestOptions.CACHE_TYPE_STREAMED);
+            }
+        });
+
+        vastActivityBtn = findViewById(R.id.btnSecondActivity);
+
+        vastActivityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, VASTActivity.class);
+                startActivity(intent);
+            }
+        });
+
         showAddBtn = findViewById(R.id.btnShowAd);
 
         showAddBtn.setEnabled(false);
@@ -109,16 +129,17 @@ public class MainActivity extends AppCompatActivity {
                     showOptions.setRotationMode(TapsellShowOptions.ROTATION_UNLOCKED);
                     showOptions.setShowDialog(true);
 
-                    showOptions.setWarnBackPressedDialogMessage("سلام دوست من بک نزن");
+                    showOptions.setWarnBackPressedDialogMessage("درصورت خروج جایزه نمیگیرید. ویدیو را ادامه میدهید؟");
                     showOptions.setWarnBackPressedDialogMessageTextColor(Color.RED);
-                    showOptions.setWarnBackPressedDialogAssetTypefaceFileName("IranNastaliq.ttf");
-                    showOptions.setWarnBackPressedDialogPositiveButtonText("ادامه بده");
-                    showOptions.setWarnBackPressedDialogNegativeButtonText("ولم کن بزن بیرون");
+//                    showOptions.setWarnBackPressedDialogAssetTypefaceFileName("IranNastaliq.ttf");
+                    showOptions.setWarnBackPressedDialogPositiveButtonText("بله");
+                    showOptions.setWarnBackPressedDialogNegativeButtonText("خیر");
                     showOptions.setWarnBackPressedDialogPositiveButtonBackgroundResId(R.drawable.button_background);
                     showOptions.setWarnBackPressedDialogNegativeButtonBackgroundResId(R.drawable.button_background);
                     showOptions.setWarnBackPressedDialogPositiveButtonTextColor(Color.RED);
                     showOptions.setWarnBackPressedDialogNegativeButtonTextColor(Color.GREEN);
                     showOptions.setWarnBackPressedDialogBackgroundResId(R.drawable.dialog_background);
+                    showOptions.setBackDisabledToastMessage("لطفا جهت بازگشت تا انتهای پخش ویدیو صبر کنید.");
 //                    ad.show(MainActivity.this, showOptions);
                     ad.show(MainActivity.this, showOptions, new TapsellAdShowListener() {
                         @Override
@@ -197,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onError(String error) {
                     Toast.makeText(MainActivity.this, "ERROR:\n" + error, Toast.LENGTH_SHORT).show();
-                    Log.e("Tapsell", error);
+                    Log.e("Tapsell", "ERROR:" + error);
                     progressDialog.dismiss();
                 }
 
@@ -252,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Log.e("Tapsell", "sdk version: " + Tapsell.getVersion());
+//        Log.e("Tapsell", "sdk version: " + Tapsell.getVersion());
 
     }
 

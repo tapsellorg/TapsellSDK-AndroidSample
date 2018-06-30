@@ -32,8 +32,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
-            android:name="org.nexage.sourcekit.vast.activity.VASTActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:name=".vast.VASTActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <activity android:name=".NativeBannerActivity" />
 
