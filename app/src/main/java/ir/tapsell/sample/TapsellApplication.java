@@ -5,7 +5,7 @@ import android.app.Application;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellConfiguration;
 
-public class tapsellApplication extends Application {
+public class TapsellApplication extends Application {
 
     @Override
     public void onCreate() {
