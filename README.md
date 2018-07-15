@@ -1,4 +1,4 @@
-# Tapsell sdk v3 Sample [![Build Status](https://travis-ci.com/tapsellorg/TapsellSDK-AndroidSample.svg?branch=master)](https://travis-ci.com/tapsellorg/TapsellSDK-AndroidSample)
+# Tapsell sdk v3 Sample [![CircleCI](https://circleci.com/gh/tapsellorg/TapsellSDK-AndroidSample.svg?style=svg)](https://circleci.com/gh/tapsellorg/TapsellSDK-AndroidSample)
 
 A sample for using tapsell video ads API v3.
 
