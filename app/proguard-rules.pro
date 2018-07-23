@@ -19,10 +19,13 @@
 -keepattributes *Annotation*
 -keepattributes EnclosingMethod
 -keepattributes InnerClasses
+
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
--keep class ir.tapsell.sdk.gson.stream.** { *; }
--keep class ir.tapsell.sdk.gson.** { *; }
+-dontwarn sun.misc.**
+-keep class * implements ir.tapsell.gson.TypeAdapterFactory
+-keep class * implements ir.tapsell.gson.JsonSerializer
+-keep class * implements ir.tapsell.gson.JsonDeserializer
 
 -keepclassmembers enum * { *; }
 -keep class **.R$* { *; }
