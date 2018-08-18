@@ -1,77 +1,62 @@
 package ir.tapsell.sample;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
-import ir.tapsell.sdk.nativeads.TapsellNativeBannerAd;
-import ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoadListener;
-import ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoader;
+import ir.tapsell.sdk.AdRequestCallback;
+import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
+import ir.tapsell.sdk.nativeads.TapsellNativeBannerViewManager;
 
 
 public class NativeBannerActivity extends AppCompatActivity {
-
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private FrameLayout adContainer;
+    private TapsellNativeBannerViewManager nativeBannerViewManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_banner);
 
-        new TapsellNativeBannerAdLoader.Builder()
+        adContainer = findViewById(R.id.adContainer);
+        initTapsellNative();
+        getTapsellAd();
+    }
+
+    private void initTapsellNative() {
+        nativeBannerViewManager = new TapsellNativeBannerManager.Builder()
+                .setParentView(adContainer)
                 .setContentViewTemplate(R.layout.tapsell_content_banner_ad_template)
                 .setAppInstallationViewTemplate(R.layout.tapsell_app_installation_banner_ad_template)
-                .loadAd(NativeBannerActivity.this, BuildConfig.tapsellNativeBannerZoneId, new TapsellNativeBannerAdLoadListener() {
+                .inflateTemplate(this);
+    }
 
+    private void getTapsellAd() {
+        TapsellNativeBannerManager.getAd(this, BuildConfig.tapsellNativeBannerZoneId,
+                new AdRequestCallback() {
                     @Override
-                    public void onNoNetwork() {
-                        Log.e("Tapsell", "No Network Available");
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(NativeBannerActivity.this, "No Network Available", Toast.LENGTH_LONG).show();
-                            }
-                        });
+                    public void onResponse(String[] adId) {
+                        onAdResponse(adId);
                     }
 
                     @Override
-                    public void onNoAdAvailable() {
-                        Log.e("Tapsell", "No Native Banner Ad Available!");
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(NativeBannerActivity.this, "No Native Banner Ad Available", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(final String error) {
-                        Log.e("Tapsell", "Error: " + error);
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(NativeBannerActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onRequestFilled(TapsellNativeBannerAd adV) {
-                        TapsellNativeBannerAd ad = TapsellNativeBannerAd.createFromStateBundle(NativeBannerActivity.this,
-                                adV.getStateBundle(),
-                                R.layout.tapsell_content_banner_ad_template,
-                                R.layout.tapsell_app_installation_banner_ad_template);
-
-                        Log.e("Tapsell", "Native Banner AdView Available");
-                        ad.addToParentView((LinearLayout) findViewById(R.id.adParent));
-                        (ad.findViewById(R.id.tapsell_nativead_description)).setSelected(true);
-                        Toast.makeText(NativeBannerActivity.this, "onRequestFilled", Toast.LENGTH_LONG).show();
+                    public void onFailed(String message) {
+                        Log.e("ffff","fffff");
                     }
                 });
+    }
+
+    private void onAdResponse(final String[] adId) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TapsellNativeBannerManager.bindAd(
+                        NativeBannerActivity.this,
+                        nativeBannerViewManager,
+                        BuildConfig.tapsellNativeBannerZoneId,
+                        adId[0]);
+            }
+        });
     }
 }
