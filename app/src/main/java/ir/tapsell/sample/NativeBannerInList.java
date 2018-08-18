@@ -1,161 +1,163 @@
 package ir.tapsell.sample;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
-import ir.tapsell.sdk.nativeads.TapsellNativeBannerAd;
-import ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoadListener;
-import ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoader;
+import ir.tapsell.sample.adapter.NativeBannerAdapter;
+import ir.tapsell.sample.model.ItemList;
+import ir.tapsell.sample.type.ListItemType;
+import ir.tapsell.sdk.AdRequestCallback;
+import ir.tapsell.sdk.CacheSize;
+import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 
 public class NativeBannerInList extends AppCompatActivity {
 
+    private final String STATE_LIST = "STATE_LIST";
 
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final int PAGE_SIZE = 20;
+
+    private ArrayList<ItemList> items = new ArrayList<>();
+
+    private NativeBannerAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
+
+    private boolean isLoading = false;
+    private int currentPage = 0;
+
+    private RecyclerView rvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_banner_in_list);
 
-        RecyclerView rvItems = findViewById(R.id.rvItems);
-        rvItems.setLayoutManager(new LinearLayoutManager(NativeBannerInList.this, LinearLayoutManager.VERTICAL, false));
-        rvItems.setAdapter(new MyAdapter(NativeBannerInList.this));
+        initAdCache();
+        initList();
+
+        if (savedInstanceState != null) {
+            restoreState(savedInstanceState);
+            return;
+        }
+
+        generateItems(0);
     }
 
-    public class TapsellListItemHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle;
+    private void restoreState(Bundle savedInstanceState) {
+        TapsellNativeBannerManager.onRestoreInstanceState(this,
+                BuildConfig.tapsellNativeBannerZoneId, savedInstanceState);
 
-        TapsellListItemHolder(View itemView) {
-            super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-        }
+        items.addAll((ArrayList<ItemList>) savedInstanceState.getSerializable(STATE_LIST));
 
-        public void bindView(int index) {
-            tvTitle.setText("Item " + index);
-        }
-
+        updateList();
     }
 
-    public class TapsellListItemAdHolder extends RecyclerView.ViewHolder {
-        FrameLayout adContainer;
-        Context mContext;
+    private void initList() {
+        rvItems = findViewById(R.id.rvItems);
 
-        TapsellListItemAdHolder(View itemView, Context context) {
-            super(itemView);
-            adContainer = itemView.findViewById(R.id.adContainer);
-            mContext = context;
-        }
+        linearLayoutManager = new LinearLayoutManager(this);
+        rvItems.setLayoutManager(linearLayoutManager);
 
-        public void bindView(TapsellNativeBannerAd adView) {
-            adContainer.removeAllViews();
-            adView.addToParentView(adContainer);
-        }
+        adapter = new NativeBannerAdapter(this);
+        rvItems.setAdapter(adapter);
 
-        public void clear() {
-            adContainer.removeAllViews();
-        }
-
-    }
-
-    public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private final Context mContext;
-        private final LayoutInflater mInflater;
-
-        private static final int VIEW_TYPE_ITEM = 0;
-        private static final int VIEW_TYPE_AD = 1;
-
-        private final Map<Integer, TapsellNativeBannerAd> ads = new HashMap<>();
-
-        MyAdapter(Context context) {
-            mContext = context;
-            mInflater = LayoutInflater.from(context);
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            if (viewType == VIEW_TYPE_AD) {
-                return new TapsellListItemAdHolder(mInflater.inflate(R.layout.list_ad_item, parent, false), mContext);
-            } else {
-                return new TapsellListItemHolder(mInflater.inflate(R.layout.list_item, parent, false));
+        rvItems.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
             }
-        }
 
-        @Override
-        public int getItemViewType(int position) {
-            // Just as an example, return 0 or 2 depending on position
-            // Note that unlike in ListView adapters, types don't have to be contiguous
-            return ((position + 1) % 10) == 0 ? VIEW_TYPE_AD : VIEW_TYPE_ITEM;
-        }
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-        @Override
-        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-            if (getItemViewType(position) == VIEW_TYPE_AD) {
-                if (ads.containsKey(position)) {
-                    ((TapsellListItemAdHolder) holder).bindView(ads.get(position));
-                } else {
-                    ((TapsellListItemAdHolder) holder).clear();
-                    new TapsellNativeBannerAdLoader.Builder()
-                            .setContentViewTemplate(R.layout.tapsell_small_content_banner_ad_template)
-                            .loadAd(NativeBannerInList.this, BuildConfig.tapsellNativeBannerZoneId, new TapsellNativeBannerAdLoadListener() {
-
-                                @Override
-                                public void onNoNetwork() {
-                                    Log.e("Tapsell", "No Network Available");
-                                }
-
-                                @Override
-                                public void onNoAdAvailable() {
-                                    Log.e("Tapsell", "No Native Banner Ad Available!");
-                                }
-
-                                @Override
-                                public void onError(final String error) {
-                                    Log.e("Tapsell", "Error: " + error);
-                                }
-
-                                @Override
-                                public void onRequestFilled(TapsellNativeBannerAd ad) {
-                                    Log.e("Tapsell", "Native Banner AdView Available");
-//                                    adView.setBackgroundColor(Color.rgb(255,255,220));
-                                    ads.put(holder.getAdapterPosition(), ad);
-                                    ((TapsellListItemAdHolder) holder).bindView(ad);
-                                    (ad.findViewById(R.id.tapsell_nativead_description)).setSelected(true);
-                                    mHandler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(NativeBannerInList.this, "onRequestFilled", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                                }
-                            });
+                if (dy < 0) {
+                    return;
                 }
-            } else {
-                ((TapsellListItemHolder) holder).bindView(position);
+
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount >= PAGE_SIZE) {
+                        generateItems(++currentPage);
+                    }
+                }
             }
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 50;
-        }
+        });
     }
 
+    private void generateItems(int page) {
+        for (int i = 0; i < PAGE_SIZE; i++) {
+            ItemList item = new ItemList();
+            item.title = "item " + (page * PAGE_SIZE + i);
+            item.listItemType = ListItemType.ITEM;
+            items.add(item);
+        }
+
+        isLoading = false;
+
+        updateList();
+        getTapsellAd();
+    }
+
+    private void initAdCache() {
+        TapsellNativeBannerManager.createCache(this,
+                BuildConfig.tapsellNativeBannerZoneId, CacheSize.MEDIUM);
+    }
+
+    private void getTapsellAd() {
+        TapsellNativeBannerManager.getAd(this, BuildConfig.tapsellNativeBannerZoneId,
+                new AdRequestCallback() {
+                    @Override
+                    public void onResponse(String[] strings) {
+                        onAdResponse(strings);
+
+                    }
+
+                    @Override
+                    public void onFailed(String s) {
+                        Log.e(getClass().getName(), "get ad fail");
+
+                    }
+                });
+    }
+
+    private void onAdResponse(String[] adsId) {
+        ItemList item = new ItemList();
+
+        item.id = adsId[0];
+        item.listItemType = ListItemType.AD;
+
+        items.add(item);
+
+        updateList();
+    }
+
+    private void updateList() {
+        rvItems.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.updateItem(items);
+            }
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(STATE_LIST, items);
+
+        TapsellNativeBannerManager.onSaveInstanceState(this,
+                BuildConfig.tapsellNativeBannerZoneId, outState);
+
+        super.onSaveInstanceState(outState);
+    }
 }
