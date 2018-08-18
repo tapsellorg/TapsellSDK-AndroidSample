@@ -42,7 +42,7 @@ public class NativeBannerActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailed(String message) {
-                        Log.e("NativeBannerActivity","getTapsellAd onFailed");
+                        Log.e("getTapsellAd onFailed", message);
                     }
                 });
     }
