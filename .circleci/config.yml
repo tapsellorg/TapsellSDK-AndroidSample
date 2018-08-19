@@ -10,7 +10,9 @@ jobs:
 
     steps:
       - checkout
-      - run: ./gradlew assemble
+      - run:
+            name: Build APK
+            command: ./gradlew assembleDebug
 
 
   playStorePublish:
