@@ -1,8 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
 
 android {
 
     signingConfigs {
+        debug {
+            storeFile file("release.keystore")
+            storePassword "tapsell"
+            keyAlias "tapsell"
+            keyPassword "tapsell"
+        }
+
         release {
             storeFile file("release.keystore")
             storePassword "tapsell"
@@ -46,6 +54,11 @@ android {
             minifyEnabled false
         }
     }
+}
+
+
+play {
+    jsonFile = file('key.json')
 }
 
 dependencies {

@@ -1,9 +1,38 @@
 version: 2
+defaults: &defaults
+  docker:
+    - image: behdad222/android-sdk:v2.1.1
+
 jobs:
+
   build:
-    docker: # See https://docs.docker.com/get-started/#docker-concepts if you are new to Docker.
-      - image: behdad222/android-sdk:v2.0.0
-      
+    <<: *defaults
+
     steps:
       - checkout
       - run: ./gradlew assemble
+
+
+  playStorePublish:
+      <<: *defaults
+
+      steps:
+        - checkout
+        - run:
+            name: get play service jsonFile
+            command: echo $PLAY_SERVICE_JSON > ./app/key.json
+
+        - run:
+            name: publish to Play Store
+            command: ./gradlew publishApkRelease
+
+workflows:
+  version: 2
+  publish:
+    jobs:
+      - hold:
+          type: approval
+
+      - playStorePublish:
+          requires:
+            - hold
