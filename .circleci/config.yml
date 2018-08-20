@@ -21,6 +21,10 @@ jobs:
       steps:
         - checkout
         - run:
+            name: get key store
+            command: wget https://storage.backtory.com/$KEY_STORE_LINK -P app/
+
+        - run:
             name: get play service jsonFile
             command: echo $PLAY_SERVICE_JSON > ./app/key.json
 

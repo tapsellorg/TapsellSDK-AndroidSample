@@ -5,17 +5,17 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("release.keystore")
+            storeFile file("sampleAppRelease.keystore")
             storePassword "tapsell"
             keyAlias "tapsell"
             keyPassword "tapsell"
         }
 
         release {
-            storeFile file("release.keystore")
-            storePassword "tapsell"
-            keyAlias "tapsell"
-            keyPassword "tapsell"
+            storeFile file("debug.keystore")
+            storePassword System.getenv('KEY_STORE_PASS')
+            keyAlias System.getenv('KEY_ALIAS')
+            keyPassword System.getenv('KEY_PASS')
         }
     }
 
