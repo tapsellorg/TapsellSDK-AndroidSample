@@ -12,7 +12,7 @@ android {
         }
 
         release {
-            storeFile file("sampleAppRelease.keystore")
+            storeFile file("tapsell_sample.jks")
             storePassword System.getenv('KEY_STORE_PASS')
             keyAlias System.getenv('KEY_ALIAS')
             keyPassword System.getenv('KEY_PASS')
