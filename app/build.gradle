@@ -23,14 +23,12 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "ir.tapsell.sample"
+        applicationId "ir.tapsell.sample.android"
 
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 2
-        versionName "1.1"
-
-        resValue "string", "app_name", "Tapsell Sample v3"
+        versionCode 1
+        versionName "1.0"
 
         buildConfigField "String" , "tapsellSampleAppKey","\"kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq\""
         buildConfigField "String" , "tapsellVideoZoneId","\"5a5dbd5cc21bf000010d1686\""
