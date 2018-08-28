@@ -1,4 +1,7 @@
-# Tapsell sdk v3 Sample [![CircleCI](https://circleci.com/gh/tapsellorg/TapsellSDK-AndroidSample.svg?style=svg)](https://circleci.com/gh/tapsellorg/TapsellSDK-AndroidSample)
+# Tapsell sdk v3 Sample  
+[![CircleCI](https://circleci.com/gh/tapsellorg/TapsellSDK-AndroidSample.svg?style=svg)](https://circleci.com/gh/tapsellorg/TapsellSDK-AndroidSample)  
+<a href='https://play.google.com/store/apps/details?id=ir.tapsell.sample.android&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="40" width="103"/></a>
+
 
 A sample for using tapsell video ads API v3.
 
