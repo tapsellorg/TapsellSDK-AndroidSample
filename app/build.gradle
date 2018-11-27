@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     
-    implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.0.3'
+    implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.0.4'
     implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.8.7'
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
 }
