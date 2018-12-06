@@ -1,8 +1,8 @@
 package ir.tapsell.sample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import ir.tapsell.sdk.bannerads.TapsellBannerType;
 import ir.tapsell.sdk.bannerads.TapsellBannerView;
 

@@ -1,10 +1,10 @@
 package ir.tapsell.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import ir.tapsell.sdk.AdRequestCallback;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerViewManager;

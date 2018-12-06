@@ -1,11 +1,11 @@
 package ir.tapsell.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAd;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdCompletionListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoadListener;

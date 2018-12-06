@@ -4,10 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +15,10 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAd;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdCompletionListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoadListener;
@@ -35,7 +35,7 @@ public class NativeVideoInList extends AppCompatActivity {
         setContentView(R.layout.activity_native_video_in_list);
 
         RecyclerView rvItems = findViewById(R.id.rvItems);
-        rvItems.setLayoutManager(new LinearLayoutManager(NativeVideoInList.this, LinearLayoutManager.VERTICAL, false));
+        rvItems.setLayoutManager(new LinearLayoutManager(NativeVideoInList.this, RecyclerView.VERTICAL, false));
         rvItems.setAdapter(new NativeVideoInList.MyAdapter(NativeVideoInList.this));
     }
 

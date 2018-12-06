@@ -1,14 +1,14 @@
 package ir.tapsell.sample;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import ir.tapsell.sample.adapter.NativeBannerAdapter;
 import ir.tapsell.sample.model.ItemList;
 import ir.tapsell.sample.type.ListItemType;

@@ -61,13 +61,12 @@ play {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:customtabs:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+
     implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.0.5'
+
     implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.8.7'
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
 }

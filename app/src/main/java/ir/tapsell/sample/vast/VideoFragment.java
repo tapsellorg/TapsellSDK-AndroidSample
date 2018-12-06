@@ -2,7 +2,6 @@ package ir.tapsell.sample.vast;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
 import ir.tapsell.sdk.vast.TapsellVast;
