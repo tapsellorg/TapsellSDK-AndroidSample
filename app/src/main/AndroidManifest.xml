@@ -18,7 +18,7 @@
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,8 +36,6 @@
         <activity android:name=".NativeVideoActivity" />
 
         <activity android:name=".NativeBannerInList" />
-
-        <!-- <receiver android:name="ir.tapsell.sdk.receiver.TapsellReceiver" android:enabled="true" android:exported="true"/> -->
 
         <activity android:name=".WebBannerActivity" />
 

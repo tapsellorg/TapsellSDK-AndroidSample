@@ -30,14 +30,14 @@ android {
         versionName "1.0"
         targetSdkVersion 28
 
-        buildConfigField "String" , "tapsellSampleAppKey","\"kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq\""
-        buildConfigField "String" , "tapsellVideoZoneId","\"5a5dbd5cc21bf000010d1686\""
-        buildConfigField "String" , "tapsellInterstitialBannerZoneId","\"5a3f5063fca4f000014b70a8\""
-        buildConfigField "String" , "tapsellInterstitialVideoZoneId","\"5af292bef5a56d000196e9c8\""
-        buildConfigField "String" , "tapsellNativeVideoZoneId","\"5953bd064684652dd8fcb02e\""
-        buildConfigField "String" , "tapsellNativeBannerZoneId","\"5953bc774684652dd8fc937e\""
-        buildConfigField "String" , "tapsellVastZoneId","\"5953bb294684652dd8fc4f9f\""
-        buildConfigField "String" , "tapsellStandardBannerZoneId","\"5a28f47539086d0001670416\""
+        buildConfigField "String", "tapsellSampleAppKey", "\"kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq\""
+        buildConfigField "String", "tapsellVideoZoneId", "\"5a5dbd5cc21bf000010d1686\""
+        buildConfigField "String", "tapsellInterstitialBannerZoneId", "\"5a3f5063fca4f000014b70a8\""
+        buildConfigField "String", "tapsellInterstitialVideoZoneId", "\"5af292bef5a56d000196e9c8\""
+        buildConfigField "String", "tapsellNativeVideoZoneId", "\"5953bd064684652dd8fcb02e\""
+        buildConfigField "String", "tapsellNativeBannerZoneId", "\"5953bc774684652dd8fc937e\""
+        buildConfigField "String", "tapsellVastZoneId", "\"5953bb294684652dd8fc4f9f\""
+        buildConfigField "String", "tapsellStandardBannerZoneId", "\"5a28f47539086d0001670416\""
     }
 
     buildTypes {
