@@ -26,9 +26,9 @@ android {
         applicationId "ir.tapsell.sample.android"
 
         minSdkVersion 16
-        versionCode 5
-        versionName "1.0"
         targetSdkVersion 28
+        versionCode 6
+        versionName "1.1"
 
         buildConfigField "String", "tapsellSampleAppKey", "\"kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq\""
         buildConfigField "String", "tapsellVideoZoneId", "\"5a5dbd5cc21bf000010d1686\""
