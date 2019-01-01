@@ -27,8 +27,8 @@ android {
 
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.1"
+        versionCode 7
+        versionName "1.2"
 
         buildConfigField "String", "tapsellSampleAppKey", "\"kilkhmaqckffopkpfnacjkobgrgnidkphkcbtmbcdhiokqetigljpnnrbfbnpnhmeikjbq\""
         buildConfigField "String", "tapsellVideoZoneId", "\"5a5dbd5cc21bf000010d1686\""
