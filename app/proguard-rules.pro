@@ -71,6 +71,7 @@
 -keep interface * extends ir.tapsell.sdk.NoProguard { *; }
 -keep enum * extends ir.tapsell.sdk.NoProguard { *; }
 -keepnames class * extends android.app.Activity
+-keep class ir.tapsell.sdk.models.** { *; }
 
 -keep class com.google.obf.** { *; }
 -keep interface com.google.obf.** { *; }
