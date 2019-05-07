@@ -65,7 +65,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.fragment:fragment:1.0.0'
 
-    implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.2.4'
+    implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.2.5'
 
     implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.8.7'
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
