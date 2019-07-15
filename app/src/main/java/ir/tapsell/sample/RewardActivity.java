@@ -20,7 +20,7 @@ import static ir.tapsell.sdk.TapsellAdRequestOptions.CACHE_TYPE_STREAMED;
 public class RewardActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String TAG = "RewardActivity";
-    private Button btnRewardVideo,btnShowAd;
+    private Button btnRewardVideo,btnShow;
     private TapsellAd ad = null;
 
     @Override
@@ -39,9 +39,9 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnRewardVideo = findViewById(R.id.btnRewardVideo);
-        btnShowAd = findViewById(R.id.btnShowAd);
+        btnShow = findViewById(R.id.btnShow);
         btnRewardVideo.setOnClickListener(this);
-        btnShowAd.setOnClickListener(this);
+        btnShow.setOnClickListener(this);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btnRewardVideo:
                 requestAd();
                 break;
-            case R.id.btnShowAd:
+            case R.id.btnShow:
                 showAd();
                 break;
         }
@@ -72,6 +72,7 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
                             return;
                         }
                         ad = tapsellAd;
+                        btnShow.setEnabled(true);
                     }
 
                     @Override
@@ -110,7 +111,7 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             Log.e(TAG, "ad is not available");
         }
-
         ad = null;
+        btnShow.setEnabled(false);
     }
 }

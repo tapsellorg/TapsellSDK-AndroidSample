@@ -1,6 +1,5 @@
 package ir.tapsell.sample.prerollAds;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import ir.tapsell.sample.BuildConfig;
@@ -20,47 +21,20 @@ public class VideoFragment extends Fragment {
     private VideoPlayerController mVideoPlayerController;
     private TextView mVideoTitle;
     private LinearLayout mVideoExampleLayout;
-    private OnVideoFragmentViewCreatedListener mViewCreatedCallback;
-
-    @Override
-    public void onAttach(Context context) {
-        try {
-            mViewCreatedCallback = (OnVideoFragmentViewCreatedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement " + OnVideoFragmentViewCreatedListener.class.getName());
-        }
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_video, container, false);
-        initUi(rootView);
-        if (mViewCreatedCallback != null) {
-            mViewCreatedCallback.onVideoFragmentViewCreated();
-        }
-        return rootView;
+        return inflater.inflate(R.layout.fragment_video, container, false);
     }
 
-    private void loadVideo() {
-        if (mVideoPlayerController == null) {
-            return;
-        }
-        mVideoPlayerController.setContentVideo(
-                "https://storage.backtory.com/tapsell-server/sdk/VASTContentVideo.mp4");
-        mVideoPlayerController.setAdTagUrl(TapsellVast.getAdTag(this.getContext(),
-                BuildConfig.TAPSELL_PRE_ROL_VIDEO, TapsellVast.PREROLL_TYPE_BOTH,
-                TapsellVast.VAST_VERSION_3));
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
     }
 
-    private void initUi(View rootView) {
+    private void initView(View rootView) {
         VideoPlayerWithAdPlayback mVideoPlayerWithAdPlayback =
                 rootView.findViewById(R.id.videoPlayerWithAdPlayback);
         View playButton = rootView.findViewById(R.id.playButton);
@@ -95,6 +69,17 @@ public class VideoFragment extends Fragment {
         loadVideo();
     }
 
+    private void loadVideo() {
+        if (mVideoPlayerController == null) {
+            return;
+        }
+        mVideoPlayerController.setContentVideo(
+                "https://storage.backtory.com/tapsell-server/sdk/VASTContentVideo.mp4");
+        mVideoPlayerController.setAdTagUrl(TapsellVast.getAdTag(this.getContext(),
+                BuildConfig.TAPSELL_PRE_ROL_VIDEO, TapsellVast.PREROLL_TYPE_BOTH,
+                TapsellVast.VAST_VERSION_3));
+    }
+
     @Override
     public void onPause() {
         if (mVideoPlayerController != null) {
@@ -109,9 +94,5 @@ public class VideoFragment extends Fragment {
             mVideoPlayerController.resume();
         }
         super.onResume();
-    }
-
-    public interface OnVideoFragmentViewCreatedListener {
-        void onVideoFragmentViewCreated();
     }
 }
