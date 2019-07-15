@@ -1,6 +1,6 @@
 // Copyright 2014 Google Inc. All Rights Reserved.
 
-package ir.tapsell.sample.vast;
+package ir.tapsell.sample.prerollAds;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.tapsell.sample.R;
+import ir.tapsell.sample.prerollAds.VideoPlayer;
 import ir.tapsell.sdk.vast.ContentProgressProvider;
 import ir.tapsell.sdk.vast.VideoAdPlayer;
 import ir.tapsell.sdk.vast.VideoProgressUpdate;

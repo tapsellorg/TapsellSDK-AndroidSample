@@ -1,6 +1,6 @@
 // Copyright 2014 Google Inc. All Rights Reserved.
 
-package ir.tapsell.sample.vast;
+package ir.tapsell.sample.prerollAds;
 
 /**
  * Interface definition for controlling video playback.
@@ -10,7 +10,7 @@ public interface VideoPlayer {
     /**
      *  Interface for alerting caller of major video events.
      */
-    public interface PlayerCallback {
+    interface PlayerCallback {
 
         /**
          * Called when the current video starts playing from the beginning.

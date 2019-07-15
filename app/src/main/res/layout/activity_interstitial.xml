@@ -4,56 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".InterstitialActivity">
 
     <Button
-        android:id="@+id/btnInterstitial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/interstitial"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/btnNative"
+        android:id="@+id/btnInterstitialBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/native_string"
+        android:text="@string/interstitial_banner"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/btnStandard"
+        android:id="@+id/btnInterstitialVideo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/standard_banner"
+        android:text="@string/interstitial_video"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/btnReward"
+        android:id="@+id/btnShowAd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/reward"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/btnPreRoll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/pre_roll"
+        android:enabled="false"
+        android:text="@string/show_ad"
         android:textAllCaps="false" />
 
 </LinearLayout>

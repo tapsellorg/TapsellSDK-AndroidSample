@@ -12,7 +12,7 @@ public class TapsellApplication extends Application {
         super.onCreate();
 
         TapsellConfiguration config = new TapsellConfiguration(this);
-        config.setPermissionHandlerMode(TapsellConfiguration.PERMISSION_HANDLER_DISABLED);
-        Tapsell.initialize(this, config, BuildConfig.tapsellSampleAppKey);
+        config.setDebugMode(true);
+        Tapsell.initialize(this, config, BuildConfig.TAPSELL_KEY);
     }
 }

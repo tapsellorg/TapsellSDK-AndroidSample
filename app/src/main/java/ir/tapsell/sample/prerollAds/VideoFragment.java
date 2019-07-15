@@ -1,6 +1,6 @@
-package ir.tapsell.sample.vast;
+package ir.tapsell.sample.prerollAds;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,37 +10,27 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
 import ir.tapsell.sdk.vast.TapsellVast;
 
-/**
- * The main fragment for displaying video content.
- */
 public class VideoFragment extends Fragment {
 
     private VideoPlayerController mVideoPlayerController;
     private TextView mVideoTitle;
     private LinearLayout mVideoExampleLayout;
-
     private OnVideoFragmentViewCreatedListener mViewCreatedCallback;
 
-    /**
-     * Listener called when the fragment's onCreateView is fired.
-     */
-    public interface OnVideoFragmentViewCreatedListener {
-        public void onVideoFragmentViewCreated();
-    }
-
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context context) {
         try {
-            mViewCreatedCallback = (OnVideoFragmentViewCreatedListener) activity;
+            mViewCreatedCallback = (OnVideoFragmentViewCreatedListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement " + OnVideoFragmentViewCreatedListener.class.getName());
         }
-        super.onAttach(activity);
+        super.onAttach(context);
     }
 
     @Override
@@ -59,16 +49,19 @@ public class VideoFragment extends Fragment {
         return rootView;
     }
 
-    public void loadVideo() {
+    private void loadVideo() {
         if (mVideoPlayerController == null) {
             return;
         }
-        mVideoPlayerController.setContentVideo("https://storage.backtory.com/tapsell-server/sdk/VASTContentVideo.mp4");
-        mVideoPlayerController.setAdTagUrl(TapsellVast.getAdTag(this.getContext(), BuildConfig.tapsellVastZoneId, TapsellVast.PREROLL_TYPE_BOTH, TapsellVast.VAST_VERSION_3));
+        mVideoPlayerController.setContentVideo(
+                "https://storage.backtory.com/tapsell-server/sdk/VASTContentVideo.mp4");
+        mVideoPlayerController.setAdTagUrl(TapsellVast.getAdTag(this.getContext(),
+                BuildConfig.TAPSELL_PRE_ROL_VIDEO, TapsellVast.PREROLL_TYPE_BOTH,
+                TapsellVast.VAST_VERSION_3));
     }
 
     private void initUi(View rootView) {
-        VideoPlayerWithAdPlayback mVideoPlayerWithAdPlayback = (VideoPlayerWithAdPlayback)
+        VideoPlayerWithAdPlayback mVideoPlayerWithAdPlayback =
                 rootView.findViewById(R.id.videoPlayerWithAdPlayback);
         View playButton = rootView.findViewById(R.id.playButton);
         View playPauseToggle = rootView.findViewById(R.id.videoContainer);
@@ -78,7 +71,6 @@ public class VideoFragment extends Fragment {
         final TextView logText = rootView.findViewById(R.id.logText);
         final ScrollView logScroll = rootView.findViewById(R.id.logScroll);
 
-        // Provide an implementation of a logger so we can output SDK events to the UI.
         VideoPlayerController.Logger logger = new VideoPlayerController.Logger() {
             @Override
             public void log(String message) {
@@ -100,29 +92,7 @@ public class VideoFragment extends Fragment {
                 mVideoPlayerWithAdPlayback, playButton, playPauseToggle,
                 "fa", logger);
 
-        // If we've already selected a video, load it now.
         loadVideo();
-    }
-
-    /**
-     * Shows or hides all non-video UI elements to make the video as large as possible.
-     */
-    public void makeFullscreen(boolean isFullscreen) {
-        for (int i = 0; i < mVideoExampleLayout.getChildCount(); i++) {
-            View view = mVideoExampleLayout.getChildAt(i);
-            // If it's not the video element, hide or show it, depending on fullscreen status.
-            if (view.getId() != R.id.videoContainer) {
-                if (isFullscreen) {
-                    view.setVisibility(View.GONE);
-                } else {
-                    view.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-    }
-
-    public VideoPlayerController getVideoPlayerController() {
-        return mVideoPlayerController;
     }
 
     @Override
@@ -141,4 +111,7 @@ public class VideoFragment extends Fragment {
         super.onResume();
     }
 
+    public interface OnVideoFragmentViewCreatedListener {
+        void onVideoFragmentViewCreated();
+    }
 }

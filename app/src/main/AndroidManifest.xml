@@ -12,7 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize">
@@ -22,25 +21,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RewardActivity" />
+        <activity android:name=".InterstitialActivity" />
+        <activity android:name=".navideAds.NativeActivity"/>
+        <activity android:name=".navideAds.NativeBannerActivity"/>
+        <activity android:name=".navideAds.NativeBannerInListActivity"/>
+        <activity android:name=".navideAds.NativeVideoActivity"/>
+        <activity android:name=".navideAds.NativeVideoInList"/>
+        <activity android:name=".StandardActivity" />
+
+        <activity
+            android:name=".prerollAds.PreRollActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <activity
             android:name="ir.tapsell.sdk.TapsellAdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-
-        <activity
-            android:name=".vast.VASTActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-
-        <activity android:name=".NativeBannerActivity" />
-
-        <activity android:name=".NativeVideoActivity" />
-
-        <activity android:name=".NativeBannerInList" />
-
-        <activity android:name=".WebBannerActivity" />
-
-        <activity android:name=".NativeVideoInList" />
-
     </application>
 
 </manifest>

@@ -1,65 +1,112 @@
-package ir.tapsell.sample;
+package ir.tapsell.sample.navideAds;
 
 import android.os.Bundle;
 import android.util.Log;
-
-import java.util.ArrayList;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+import ir.tapsell.sample.BuildConfig;
+import ir.tapsell.sample.R;
 import ir.tapsell.sample.adapter.NativeBannerAdapter;
+import ir.tapsell.sample.enums.ListItemType;
 import ir.tapsell.sample.model.ItemList;
-import ir.tapsell.sample.type.ListItemType;
 import ir.tapsell.sdk.AdRequestCallback;
 import ir.tapsell.sdk.CacheSize;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 
-public class NativeBannerInList extends AppCompatActivity {
+public class NativeBannerInListActivity extends AppCompatActivity {
 
+    private final static String TAG = "NativeBanner";
     private final String STATE_LIST = "STATE_LIST";
-
     private final int PAGE_SIZE = 20;
-
-    private ArrayList<ItemList> items = new ArrayList<>();
+    private int currentPage = 0;
+    private boolean isLoading = false;
 
     private NativeBannerAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
 
-    private boolean isLoading = false;
-    private int currentPage = 0;
-
     private RecyclerView rvItems;
+    private Button btnNativeBanner, btnShow;
+
+    private ArrayList<ItemList> items = new ArrayList<>();
+    private String[] adId = null;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(STATE_LIST, items);
+
+        TapsellNativeBannerManager.onSaveInstanceState(this,
+                BuildConfig.TAPSELL_NATIVE_BANNER, outState);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    private void restoreState(Bundle savedInstanceState) {
+        TapsellNativeBannerManager.onRestoreInstanceState(this,
+                BuildConfig.TAPSELL_NATIVE_BANNER, savedInstanceState);
+
+        items.addAll((ArrayList<ItemList>) savedInstanceState.getSerializable(STATE_LIST));
+        updateList();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_banner_in_list);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initAdCache();
-        initList();
-
-        if (savedInstanceState != null) {
-            restoreState(savedInstanceState);
-            return;
-        }
-
-        generateItems(0);
+        initView(savedInstanceState);
     }
 
-    private void restoreState(Bundle savedInstanceState) {
-        TapsellNativeBannerManager.onRestoreInstanceState(this,
-                BuildConfig.tapsellNativeBannerZoneId, savedInstanceState);
+    private void initView(final Bundle savedInstanceState) {
+        btnNativeBanner = findViewById(R.id.btnNativeBanner);
+        btnShow = findViewById(R.id.btnShow);
+        btnShow.setEnabled(false);
 
-        items.addAll((ArrayList<ItemList>) savedInstanceState.getSerializable(STATE_LIST));
+        btnNativeBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initAdCache();
+                initList();
 
-        updateList();
+                if (savedInstanceState != null) {
+                    restoreState(savedInstanceState);
+                    return;
+                }
+                generateItems(0);
+            }
+        });
+        btnShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAd();
+            }
+        });
+    }
+
+    private void initAdCache() {
+        TapsellNativeBannerManager.createCache(this,
+                BuildConfig.TAPSELL_NATIVE_BANNER, CacheSize.MEDIUM);
     }
 
     private void initList() {
         rvItems = findViewById(R.id.rvItems);
-
         linearLayoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(linearLayoutManager);
 
@@ -106,40 +153,24 @@ public class NativeBannerInList extends AppCompatActivity {
         isLoading = false;
 
         updateList();
-        getTapsellAd();
+        getNativeBannerAd();
     }
 
-    private void initAdCache() {
-        TapsellNativeBannerManager.createCache(this,
-                BuildConfig.tapsellNativeBannerZoneId, CacheSize.MEDIUM);
-    }
-
-    private void getTapsellAd() {
-        TapsellNativeBannerManager.getAd(this, BuildConfig.tapsellNativeBannerZoneId,
+    private void getNativeBannerAd() {
+        TapsellNativeBannerManager.getAd(this, BuildConfig.TAPSELL_NATIVE_BANNER,
                 new AdRequestCallback() {
                     @Override
                     public void onResponse(String[] strings) {
-                        onAdResponse(strings);
-
+                        adId = strings;
+                        Log.d(TAG, "get ad success");
+                        btnShow.setEnabled(true);
                     }
 
                     @Override
                     public void onFailed(String s) {
-                        Log.e(getClass().getName(), "get ad fail");
-
+                        Log.d(TAG, "get ad failed");
                     }
                 });
-    }
-
-    private void onAdResponse(String[] adsId) {
-        ItemList item = new ItemList();
-
-        item.id = adsId[0];
-        item.listItemType = ListItemType.AD;
-
-        items.add(item);
-
-        updateList();
     }
 
     private void updateList() {
@@ -151,13 +182,14 @@ public class NativeBannerInList extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(STATE_LIST, items);
-
-        TapsellNativeBannerManager.onSaveInstanceState(this,
-                BuildConfig.tapsellNativeBannerZoneId, outState);
-
-        super.onSaveInstanceState(outState);
+    private void showAd() {
+        if (adId != null) {
+            ItemList item = new ItemList();
+            item.id = adId[0];
+            item.listItemType = ListItemType.AD;
+            items.add(item);
+            updateList();
+        }
+        btnShow.setEnabled(false);
     }
 }

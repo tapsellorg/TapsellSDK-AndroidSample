@@ -15,17 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
 import ir.tapsell.sample.model.ItemList;
-import ir.tapsell.sample.type.ListItemType;
+import ir.tapsell.sample.enums.ListItemType;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerViewManager;
 
 public class NativeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private static final int VIEW_TYPE_ITEM = 0;
     private static final int VIEW_TYPE_AD = 1;
-
     private final Context context;
     private final LayoutInflater inflater;
-
     private List<ItemList> items;
 
     public NativeBannerAdapter(Context context) {
@@ -70,7 +69,7 @@ public class NativeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             TapsellNativeBannerManager.bindAd(
                     context,
                     nativeBannerViewManager,
-                    BuildConfig.tapsellNativeBannerZoneId,
+                    BuildConfig.TAPSELL_NATIVE_BANNER,
                     items.get(position).id);
         }
     }
