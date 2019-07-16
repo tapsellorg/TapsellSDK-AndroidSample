@@ -5,33 +5,33 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnRequest"
+        android:id="@+id/btnNativeBannerInActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/request_native_video"
+        android:text="@string/native_banner_in_activity"
         android:textAllCaps="false" />
 
-    <TextView
-        android:id="@+id/tvLog"
+    <Button
+        android:id="@+id/btnNativeBannerInList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="#ddd"
-        android:padding="8dp" />
-
-    <FrameLayout
-        android:id="@+id/adContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"  />
+        android:text="@string/native_banner_in_list"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnNativeVideoInActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/native_video_in_activity"
+        android:textAllCaps="false" />
 
 </LinearLayout>
-

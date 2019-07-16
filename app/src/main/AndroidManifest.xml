@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ir.tapsell.sample">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".TapsellApplication"
         android:allowBackup="true"
@@ -14,32 +11,48 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="ir.tapsell.sdk.TapsellAdActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:name=".activities.RewardActivity"
+            android:label="@string/reward" />
 
         <activity
-            android:name=".vast.VASTActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+            android:name=".activities.InterstitialActivity"
+            android:label="@string/interstitial" />
 
-        <activity android:name=".NativeBannerActivity" />
+        <activity
+            android:name=".activities.navideAds.NativeActivity"
+            android:label="@string/native_string" />
 
-        <activity android:name=".NativeVideoActivity" />
+        <activity
+            android:name=".activities.navideAds.NativeBannerActivity"
+            android:label="@string/native_banner_in_activity" />
 
-        <activity android:name=".NativeBannerInList" />
+        <activity
+            android:name=".activities.navideAds.NativeBannerInListActivity"
+            android:label="@string/native_banner_in_list" />
 
-        <activity android:name=".WebBannerActivity" />
+        <activity
+            android:name=".activities.navideAds.NativeVideoActivity"
+            android:label="@string/native_video_in_activity" />
 
-        <activity android:name=".NativeVideoInList" />
+        <activity
+            android:name=".activities.StandardActivity"
+            android:label="@string/standard_banner" />
+
+        <activity
+            android:name=".activities.PreRollActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/pre_roll" />
 
     </application>
 

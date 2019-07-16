@@ -3,49 +3,51 @@
     android:id="@+id/videoExampleLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".vast.VASTActivity">
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/videoContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".5"
         android:background="#000000"
-        android:orientation="vertical"
-        android:id="@+id/videoContainer">
+        android:orientation="vertical">
 
-        <ir.tapsell.sample.vast.VideoPlayerWithAdPlayback
+        <ir.tapsell.sample.prerollAds.VideoPlayerWithAdPlayback
             android:id="@+id/videoPlayerWithAdPlayback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ir.tapsell.sample.vast.SampleVideoPlayer
+
+            <ir.tapsell.sample.prerollAds.SampleVideoPlayer
                 android:id="@+id/videoPlayer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true" />
+
             <FrameLayout
                 android:id="@+id/adUiContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
             <ImageButton
                 android:id="@+id/playButton"
-                android:contentDescription="Play Button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_play_over_video"
-                android:background="@null" />
-        </ir.tapsell.sample.vast.VideoPlayerWithAdPlayback>
+                android:background="@null"
+                android:contentDescription="@string/play_button"
+                android:src="@drawable/ic_action_play_over_video" />
+
+        </ir.tapsell.sample.prerollAds.VideoPlayerWithAdPlayback>
+
     </LinearLayout>
 
     <!-- Video title/description area -->
     <TextView
         android:id="@+id/video_title"
-        android:text=""
-        style="@style/Title"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1" />
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        tools:text="Video Title" />
 
     <!-- UI element for viewing SDK event log -->
     <ScrollView
@@ -53,14 +55,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"
-        android:padding="5dp"
-        android:background="#DDDDDD">
+        android:background="#DDDDDD"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/logText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </TextView>
+            android:layout_height="wrap_content" />
     </ScrollView>
 
 </LinearLayout>
