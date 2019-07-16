@@ -1,4 +1,4 @@
-package ir.tapsell.sample;
+package ir.tapsell.sample.activities;
 
 import android.os.Bundle;
 import android.view.Gravity;
@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ir.tapsell.sample.R;
 import ir.tapsell.sdk.bannerads.TapsellBannerType;
 import ir.tapsell.sdk.bannerads.TapsellBannerView;
 

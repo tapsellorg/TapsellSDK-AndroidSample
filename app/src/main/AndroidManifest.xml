@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,35 +22,35 @@
         </activity>
 
         <activity
-            android:name=".RewardActivity"
+            android:name=".activities.RewardActivity"
             android:label="@string/reward" />
 
         <activity
-            android:name=".InterstitialActivity"
+            android:name=".activities.InterstitialActivity"
             android:label="@string/interstitial" />
 
         <activity
-            android:name=".navideAds.NativeActivity"
+            android:name=".activities.navideAds.NativeActivity"
             android:label="@string/native_string" />
 
         <activity
-            android:name=".navideAds.NativeBannerActivity"
+            android:name=".activities.navideAds.NativeBannerActivity"
             android:label="@string/native_banner_in_activity" />
 
         <activity
-            android:name=".navideAds.NativeBannerInListActivity"
+            android:name=".activities.navideAds.NativeBannerInListActivity"
             android:label="@string/native_banner_in_list" />
 
         <activity
-            android:name=".navideAds.NativeVideoActivity"
+            android:name=".activities.navideAds.NativeVideoActivity"
             android:label="@string/native_video_in_activity" />
 
         <activity
-            android:name=".StandardActivity"
+            android:name=".activities.StandardActivity"
             android:label="@string/standard_banner" />
 
         <activity
-            android:name=".prerollAds.PreRollActivity"
+            android:name=".activities.PreRollActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/pre_roll" />
 

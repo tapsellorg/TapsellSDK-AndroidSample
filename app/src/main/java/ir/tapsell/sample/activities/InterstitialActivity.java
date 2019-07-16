@@ -1,4 +1,4 @@
-package ir.tapsell.sample;
+package ir.tapsell.sample.activities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,64 +8,65 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ir.tapsell.sample.BuildConfig;
+import ir.tapsell.sample.R;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
 import ir.tapsell.sdk.TapsellAdShowListener;
-import ir.tapsell.sdk.TapsellRewardListener;
 import ir.tapsell.sdk.TapsellShowOptions;
 
-public class RewardActivity extends AppCompatActivity implements View.OnClickListener {
+public class InterstitialActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final static String TAG = "RewardActivity";
-    private Button btnShow;
+    private final static String TAG = "InterstitialActivity";
+    private Button btnShowAd;
     private TextView tvLog;
     private TapsellAd ad = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reward);
+        setContentView(R.layout.activity_interstitial);
         initView();
-
-        Tapsell.setRewardListener(new TapsellRewardListener() {
-            @Override
-            public void onAdShowFinished(TapsellAd tapsellAd, boolean completed) {
-                Log.d(TAG, "onAdShowFinished completed? " + completed);
-                tvLog.append("\nonAdShowFinished completed? " + completed);
-            }
-        });
     }
 
     private void initView() {
-        Button btnRequest = findViewById(R.id.btnRequest);
-        btnShow = findViewById(R.id.btnShow);
+        Button btnInterstitialBanner = findViewById(R.id.btnInterstitialBanner);
+        Button btnInterstitialVideo = findViewById(R.id.btnInterstitialVideo);
+
+        btnShowAd = findViewById(R.id.btnShowAd);
         tvLog = findViewById(R.id.tvLog);
 
-        btnRequest.setOnClickListener(this);
-        btnShow.setOnClickListener(this);
+        btnInterstitialBanner.setOnClickListener(this);
+        btnInterstitialVideo.setOnClickListener(this);
+
+        btnShowAd.setOnClickListener(this);
+        btnShowAd.setEnabled(false);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnRequest:
-                requestAd();
+            case R.id.btnInterstitialBanner:
+                requestInterstitialBannerAd(BuildConfig.TAPSELL_INTERSTITIAL_BANNER);
                 break;
 
-            case R.id.btnShow:
+            case R.id.btnInterstitialVideo:
+                requestInterstitialBannerAd(BuildConfig.TAPSELL_INTERSTITIAL_VIDEO);
+                break;
+
+            case R.id.btnShowAd:
                 showAd();
                 break;
         }
     }
 
-    private void requestAd() {
+    private void requestInterstitialBannerAd(String zoneId) {
         Tapsell.requestAd(this,
-                BuildConfig.TAPSELL_REWARDED_VIDEO,
+                zoneId,
                 new TapsellAdRequestOptions(),
                 new TapsellAdRequestListener() {
-
                     @Override
                     public void onAdAvailable(TapsellAd tapsellAd) {
                         Log.d(TAG, "on ad AdAvailable");
@@ -75,7 +76,7 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
 
                         tvLog.append("\nonAdAvailable");
                         ad = tapsellAd;
-                        btnShow.setEnabled(true);
+                        btnShowAd.setEnabled(true);
                     }
 
                     @Override
@@ -140,7 +141,6 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
                 });
 
         ad = null;
-        btnShow.setEnabled(false);
+        btnShowAd.setEnabled(false);
     }
-
 }

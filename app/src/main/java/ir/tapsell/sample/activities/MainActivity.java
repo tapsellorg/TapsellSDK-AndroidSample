@@ -1,5 +1,6 @@
-package ir.tapsell.sample;
+package ir.tapsell.sample.activities;
 
+import android.app.NativeActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,8 +8,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ir.tapsell.sample.navideAds.NativeActivity;
-import ir.tapsell.sample.prerollAds.PreRollActivity;
+import ir.tapsell.sample.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

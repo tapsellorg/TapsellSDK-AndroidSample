@@ -1,4 +1,4 @@
-package ir.tapsell.sample.navideAds;
+package ir.tapsell.sample.activities.navideAds;
 
 import android.os.Bundle;
 import android.util.Log;

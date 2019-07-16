@@ -1,4 +1,4 @@
-package ir.tapsell.sample.prerollAds;
+package ir.tapsell.sample.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ir.tapsell.sample.R;
+import ir.tapsell.sample.prerollAds.VideoFragment;
 
 public class PreRollActivity extends AppCompatActivity implements View.OnClickListener {
 
