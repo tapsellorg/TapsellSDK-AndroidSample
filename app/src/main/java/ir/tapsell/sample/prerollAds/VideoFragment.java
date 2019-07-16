@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -19,8 +18,6 @@ import ir.tapsell.sdk.vast.TapsellVast;
 public class VideoFragment extends Fragment {
 
     private VideoPlayerController mVideoPlayerController;
-    private TextView mVideoTitle;
-    private LinearLayout mVideoExampleLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +36,6 @@ public class VideoFragment extends Fragment {
                 rootView.findViewById(R.id.videoPlayerWithAdPlayback);
         View playButton = rootView.findViewById(R.id.playButton);
         View playPauseToggle = rootView.findViewById(R.id.videoContainer);
-        mVideoTitle = rootView.findViewById(R.id.video_title);
-        mVideoExampleLayout = rootView.findViewById(R.id.videoExampleLayout);
 
         final TextView logText = rootView.findViewById(R.id.logText);
         final ScrollView logScroll = rootView.findViewById(R.id.logScroll);
@@ -75,7 +70,7 @@ public class VideoFragment extends Fragment {
         }
         mVideoPlayerController.setContentVideo(
                 "https://storage.backtory.com/tapsell-server/sdk/VASTContentVideo.mp4");
-        mVideoPlayerController.setAdTagUrl(TapsellVast.getAdTag(this.getContext(),
+        mVideoPlayerController.setAdTagUrl(TapsellVast.getAdTag(
                 BuildConfig.TAPSELL_PRE_ROL_VIDEO, TapsellVast.PREROLL_TYPE_BOTH,
                 TapsellVast.VAST_VERSION_3));
     }

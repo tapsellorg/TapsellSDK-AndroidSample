@@ -7,11 +7,21 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnInterstitial"
+        android:id="@+id/btnReward"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/reward"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnInterstitial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/interstitial"
         android:textAllCaps="false" />
@@ -34,16 +44,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/standard_banner"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/btnReward"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/reward"
         android:textAllCaps="false" />
 
     <Button

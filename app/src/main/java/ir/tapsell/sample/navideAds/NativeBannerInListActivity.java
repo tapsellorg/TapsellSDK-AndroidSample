@@ -2,7 +2,6 @@ package ir.tapsell.sample.navideAds;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,96 +18,40 @@ import ir.tapsell.sample.adapter.NativeBannerAdapter;
 import ir.tapsell.sample.enums.ListItemType;
 import ir.tapsell.sample.model.ItemList;
 import ir.tapsell.sdk.AdRequestCallback;
-import ir.tapsell.sdk.CacheSize;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 
 public class NativeBannerInListActivity extends AppCompatActivity {
 
     private final static String TAG = "NativeBanner";
-    private final String STATE_LIST = "STATE_LIST";
     private final int PAGE_SIZE = 20;
     private int currentPage = 0;
     private boolean isLoading = false;
 
     private NativeBannerAdapter adapter;
-    private LinearLayoutManager linearLayoutManager;
 
     private RecyclerView rvItems;
-    private Button btnNativeBanner, btnShow;
 
     private ArrayList<ItemList> items = new ArrayList<>();
-    private String[] adId = null;
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(STATE_LIST, items);
-
-        TapsellNativeBannerManager.onSaveInstanceState(this,
-                BuildConfig.TAPSELL_NATIVE_BANNER, outState);
-
-        super.onSaveInstanceState(outState);
-    }
-
-    private void restoreState(Bundle savedInstanceState) {
-        TapsellNativeBannerManager.onRestoreInstanceState(this,
-                BuildConfig.TAPSELL_NATIVE_BANNER, savedInstanceState);
-
-        items.addAll((ArrayList<ItemList>) savedInstanceState.getSerializable(STATE_LIST));
-        updateList();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_banner_in_list);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initView(savedInstanceState);
+        initView();
     }
 
-    private void initView(final Bundle savedInstanceState) {
-        btnNativeBanner = findViewById(R.id.btnNativeBanner);
-        btnShow = findViewById(R.id.btnShow);
-        btnShow.setEnabled(false);
+    private void initView() {
+        rvItems = findViewById(R.id.rvItems);
 
-        btnNativeBanner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initAdCache();
-                initList();
-
-                if (savedInstanceState != null) {
-                    restoreState(savedInstanceState);
-                    return;
-                }
-                generateItems(0);
-            }
-        });
-        btnShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAd();
-            }
-        });
-    }
-
-    private void initAdCache() {
-        TapsellNativeBannerManager.createCache(this,
-                BuildConfig.TAPSELL_NATIVE_BANNER, CacheSize.MEDIUM);
+        initList();
+        getNativeBannerAd();
+        generateItems(0);
     }
 
     private void initList() {
-        rvItems = findViewById(R.id.rvItems);
-        linearLayoutManager = new LinearLayoutManager(this);
-        rvItems.setLayoutManager(linearLayoutManager);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rvItems.setLayoutManager(layoutManager);
 
         adapter = new NativeBannerAdapter(this);
         rvItems.setAdapter(adapter);
@@ -127,14 +70,15 @@ public class NativeBannerInListActivity extends AppCompatActivity {
                     return;
                 }
 
-                int visibleItemCount = linearLayoutManager.getChildCount();
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
                 if (!isLoading) {
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                             && firstVisibleItemPosition >= 0
                             && totalItemCount >= PAGE_SIZE) {
+                        isLoading = true;
                         generateItems(++currentPage);
                     }
                 }
@@ -152,7 +96,7 @@ public class NativeBannerInListActivity extends AppCompatActivity {
 
         isLoading = false;
 
-        updateList();
+        adapter.updateItem(items);
         getNativeBannerAd();
     }
 
@@ -160,10 +104,9 @@ public class NativeBannerInListActivity extends AppCompatActivity {
         TapsellNativeBannerManager.getAd(this, BuildConfig.TAPSELL_NATIVE_BANNER,
                 new AdRequestCallback() {
                     @Override
-                    public void onResponse(String[] strings) {
-                        adId = strings;
+                    public void onResponse(String[] adIds) {
+                        showAd(adIds);
                         Log.d(TAG, "get ad success");
-                        btnShow.setEnabled(true);
                     }
 
                     @Override
@@ -173,23 +116,11 @@ public class NativeBannerInListActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateList() {
-        rvItems.post(new Runnable() {
-            @Override
-            public void run() {
-                adapter.updateItem(items);
-            }
-        });
-    }
-
-    private void showAd() {
-        if (adId != null) {
-            ItemList item = new ItemList();
-            item.id = adId[0];
-            item.listItemType = ListItemType.AD;
-            items.add(item);
-            updateList();
-        }
-        btnShow.setEnabled(false);
+    private void showAd(String[] adIds) {
+        ItemList item = new ItemList();
+        item.id = adIds[0];
+        item.listItemType = ListItemType.AD;
+        items.add(item);
+        adapter.updateItem(items);
     }
 }

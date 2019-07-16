@@ -7,24 +7,21 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ir.tapsell.sample.navideAds.NativeBannerActivity;
+import ir.tapsell.sample.navideAds.NativeActivity;
 import ir.tapsell.sample.prerollAds.PreRollActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    Button btnPreRoll, btnReward, btnStandard, btnNative, btnInterstitial;
-    Intent intent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnPreRoll = findViewById(R.id.btnPreRoll);
-        btnReward = findViewById(R.id.btnReward);
-        btnStandard = findViewById(R.id.btnStandard);
-        btnNative = findViewById(R.id.btnNative);
-        btnInterstitial = findViewById(R.id.btnInterstitial);
+        Button btnPreRoll = findViewById(R.id.btnPreRoll);
+        Button btnReward = findViewById(R.id.btnReward);
+        Button btnStandard = findViewById(R.id.btnStandard);
+        Button btnNative = findViewById(R.id.btnNative);
+        Button btnInterstitial = findViewById(R.id.btnInterstitial);
 
         btnPreRoll.setOnClickListener(this);
         btnReward.setOnClickListener(this);
@@ -37,25 +34,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnInterstitial:
-                intent = new Intent(MainActivity.this, InterstitialActivity.class);
+                openActivity(InterstitialActivity.class);
                 break;
 
             case R.id.btnNative:
-                intent = new Intent(MainActivity.this, NativeBannerActivity.class);
+                openActivity(NativeActivity.class);
                 break;
 
             case R.id.btnStandard:
-                intent = new Intent(MainActivity.this, StandardActivity.class);
+                openActivity(StandardActivity.class);
                 break;
 
             case R.id.btnReward:
-                intent = new Intent(MainActivity.this, RewardActivity.class);
+                openActivity(RewardActivity.class);
                 break;
 
             case R.id.btnPreRoll:
-                intent = new Intent(MainActivity.this, PreRollActivity.class);
+                openActivity(PreRollActivity.class);
                 break;
         }
+    }
+
+    private void openActivity(Class<?> activityClass) {
+        Intent intent = new Intent(this, activityClass);
         startActivity(intent);
     }
 }

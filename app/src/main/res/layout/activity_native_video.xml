@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".navideAds.NativeVideoActivity">
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnNativeVideo"
+        android:id="@+id/btnRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,23 +14,24 @@
         android:text="@string/request_native_video"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnShow"
+    <TextView
+        android:id="@+id/tvLog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="#ddd"
+        android:padding="8dp" />
+
+    <FrameLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/show_ad"
-        android:enabled="false"
-        android:textAllCaps="false" />
-
-    <LinearLayout
-        android:id="@+id/adParent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical" />
+        android:layout_marginBottom="8dp"  />
 
 </LinearLayout>
 

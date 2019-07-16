@@ -34,14 +34,4 @@
         android:text="@string/native_video_in_activity"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnNativeVideoInList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/native_video_in_list"
-        android:textAllCaps="false" />
-
 </LinearLayout>

@@ -3,7 +3,6 @@ package ir.tapsell.sample;
 import android.app.Application;
 
 import ir.tapsell.sdk.Tapsell;
-import ir.tapsell.sdk.TapsellConfiguration;
 
 public class TapsellApplication extends Application {
 
@@ -11,8 +10,6 @@ public class TapsellApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        TapsellConfiguration config = new TapsellConfiguration(this);
-        config.setDebugMode(true);
-        Tapsell.initialize(this, config, BuildConfig.TAPSELL_KEY);
+        Tapsell.initialize(this, BuildConfig.TAPSELL_KEY);
     }
 }

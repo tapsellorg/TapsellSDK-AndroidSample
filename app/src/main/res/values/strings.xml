@@ -10,10 +10,10 @@
     <string name="interstitial_video">Request Interstitial Video</string>
     <string name="show_ad">Show Ad</string>
     <string name="native_string">Native</string>
-    <string name="native_banner_in_activity">Native Banner In Activity</string>
+    <string name="native_banner_in_activity">Native Banner</string>
     <string name="native_banner_in_list">Native Banner In List</string>
-    <string name="native_video_in_activity">Native Video In Activity</string>
-    <string name="native_video_in_list">Native Video In List</string>
+    <string name="native_video_in_activity">Native Video</string>
+    <string name="native_video_in_list">Native Video</string>
     <string name="request_native_banner">Request Native Banner</string>
     <string name="request_native_video">Request Native Video</string>
     <string name="request_pre_roll_video">Request Pre-Roll Video</string>
