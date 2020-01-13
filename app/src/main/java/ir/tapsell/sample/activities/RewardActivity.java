@@ -11,11 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
 import ir.tapsell.sdk.Tapsell;
-import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
 import ir.tapsell.sdk.TapsellAdShowListener;
-import ir.tapsell.sdk.TapsellRewardListener;
 import ir.tapsell.sdk.TapsellShowOptions;
 
 public class RewardActivity extends AppCompatActivity implements View.OnClickListener {
@@ -23,21 +21,14 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
     private final static String TAG = "RewardActivity";
     private Button btnShow;
     private TextView tvLog;
-    private TapsellAd ad = null;
+    private String adId;
+    private String zoneId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reward);
         initView();
-
-        Tapsell.setRewardListener(new TapsellRewardListener() {
-            @Override
-            public void onAdShowFinished(TapsellAd tapsellAd, boolean completed) {
-                Log.d(TAG, "onAdShowFinished completed? " + completed);
-                tvLog.append("\nonAdShowFinished completed? " + completed);
-            }
-        });
     }
 
     private void initView() {
@@ -69,15 +60,15 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
                 new TapsellAdRequestListener() {
 
                     @Override
-                    public void onAdAvailable(TapsellAd tapsellAd) {
+                    public void onAdAvailable(String adId) {
                         Log.d(TAG, "on ad AdAvailable");
+                        RewardActivity.this.adId = adId;
+                        RewardActivity.this.zoneId = BuildConfig.TAPSELL_REWARDED_VIDEO;
                         if (isDestroyed()) {
                             return;
                         }
 
                         tvLog.append("\nonAdAvailable");
-                        ad = tapsellAd;
-                        btnShow.setEnabled(true);
                     }
 
                     @Override
@@ -88,61 +79,39 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
                         Log.d(TAG, "on ad Error" + message);
                         tvLog.append("\nonError " + message);
                     }
-
-                    @Override
-                    public void onNoAdAvailable() {
-                        if (isDestroyed()) {
-                            return;
-                        }
-                        Log.d(TAG, "on ad NoAdAvailable");
-                        tvLog.append("\nonNoAdAvailable");
-                    }
-
-                    @Override
-                    public void onNoNetwork() {
-                        if (isDestroyed()) {
-                            return;
-                        }
-                        Log.d(TAG, "on ad NoNetwork");
-                        tvLog.append("\nonNoNetwork");
-                    }
-
-                    @Override
-                    public void onExpiring(TapsellAd tapsellAd) {
-                        if (isDestroyed()) {
-                            return;
-                        }
-                        Log.d(TAG, "on ad Expiring");
-                        tvLog.append("\nonExpiring");
-                    }
                 });
     }
 
     private void showAd() {
-        if (ad == null) {
-            Log.e(TAG, "ad is not available");
-            tvLog.append("\nad is not available");
-            return;
-        }
-
-        ad.show(this,
+        Tapsell.showAd(this,
+                zoneId,
+                adId,
                 new TapsellShowOptions(),
                 new TapsellAdShowListener() {
                     @Override
-                    public void onOpened(TapsellAd tapsellAd) {
+                    public void onOpened() {
                         Log.d(TAG, "on ad opened");
                         tvLog.append("\nonOpened");
                     }
 
                     @Override
-                    public void onClosed(TapsellAd tapsellAd) {
+                    public void onClosed() {
                         Log.d(TAG, "on ad closed");
                         tvLog.append("\nonClosed");
                     }
-                });
 
-        ad = null;
-        btnShow.setEnabled(false);
+                    @Override
+                    public void onError(String message) {
+                        Log.d(TAG, "on error " + message);
+                        tvLog.append("\non error " + message);
+                    }
+
+                    @Override
+                    public void onRewarded(boolean completed) {
+                        Log.d(TAG, "on Rewarded " + completed);
+                        tvLog.append("\non Rewarded " + completed);
+                    }
+                });
     }
 
 }

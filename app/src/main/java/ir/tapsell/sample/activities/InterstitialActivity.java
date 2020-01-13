@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
 import ir.tapsell.sdk.Tapsell;
-import ir.tapsell.sdk.TapsellAd;
 import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
 import ir.tapsell.sdk.TapsellAdShowListener;
@@ -22,7 +21,8 @@ public class InterstitialActivity extends AppCompatActivity implements View.OnCl
     private final static String TAG = "InterstitialActivity";
     private Button btnShowAd;
     private TextView tvLog;
-    private TapsellAd ad = null;
+    private String adId;
+    private String zoneId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class InterstitialActivity extends AppCompatActivity implements View.OnCl
         btnInterstitialVideo.setOnClickListener(this);
 
         btnShowAd.setOnClickListener(this);
-        btnShowAd.setEnabled(false);
     }
 
     @Override
@@ -62,20 +61,22 @@ public class InterstitialActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void requestInterstitialBannerAd(String zoneId) {
+    private void requestInterstitialBannerAd(final String zoneId) {
         Tapsell.requestAd(this,
                 zoneId,
                 new TapsellAdRequestOptions(),
                 new TapsellAdRequestListener() {
                     @Override
-                    public void onAdAvailable(TapsellAd tapsellAd) {
+                    public void onAdAvailable(String adId) {
                         Log.d(TAG, "on ad AdAvailable");
+                        InterstitialActivity.this.adId = adId;
+                        InterstitialActivity.this.zoneId = zoneId;
+
                         if (isDestroyed()) {
                             return;
                         }
 
                         tvLog.append("\nonAdAvailable");
-                        ad = tapsellAd;
                         btnShowAd.setEnabled(true);
                     }
 
@@ -87,60 +88,33 @@ public class InterstitialActivity extends AppCompatActivity implements View.OnCl
                         Log.d(TAG, "on ad Error" + message);
                         tvLog.append("\nonError " + message);
                     }
-
-                    @Override
-                    public void onNoAdAvailable() {
-                        if (isDestroyed()) {
-                            return;
-                        }
-                        Log.d(TAG, "on ad NoAdAvailable");
-                        tvLog.append("\nonNoAdAvailable");
-                    }
-
-                    @Override
-                    public void onNoNetwork() {
-                        if (isDestroyed()) {
-                            return;
-                        }
-                        Log.d(TAG, "on ad NoNetwork");
-                        tvLog.append("\nonNoNetwork");
-                    }
-
-                    @Override
-                    public void onExpiring(TapsellAd tapsellAd) {
-                        if (isDestroyed()) {
-                            return;
-                        }
-                        Log.d(TAG, "on ad Expiring");
-                        tvLog.append("\nonExpiring");
-                    }
                 });
     }
 
     private void showAd() {
-        if (ad == null) {
-            Log.e(TAG, "ad is not available");
-            tvLog.append("\nad is not available");
-            return;
-        }
-
-        ad.show(this,
+        Tapsell.showAd(this,
+                zoneId,
+                adId,
                 new TapsellShowOptions(),
                 new TapsellAdShowListener() {
                     @Override
-                    public void onOpened(TapsellAd tapsellAd) {
+                    public void onOpened() {
                         Log.d(TAG, "on ad opened");
                         tvLog.append("\nonOpened");
                     }
 
                     @Override
-                    public void onClosed(TapsellAd tapsellAd) {
+                    public void onClosed() {
                         Log.d(TAG, "on ad closed");
                         tvLog.append("\nonClosed");
                     }
-                });
 
-        ad = null;
-        btnShowAd.setEnabled(false);
+                    @Override
+                    public void onError(String message) {
+                        Log.d(TAG, "on error " + message);
+                        tvLog.append("\non error " + message);
+                    }
+
+                });
     }
 }
