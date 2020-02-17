@@ -4,7 +4,7 @@
     <string name="interstitial">Interstitial</string>
     <string name="standard_banner">Standard Banner</string>
     <string name="reward">Rewarded</string>
-    <string name="pre_roll">Pre-roll</string>
+    <string name="vast">VAST</string>
     <string name="zone_types">Zone Types</string>
     <string name="interstitial_banner">Request Interstitial Banner</string>
     <string name="interstitial_video">Request Interstitial Video</string>
@@ -16,7 +16,7 @@
     <string name="native_video_in_list">Native Video</string>
     <string name="request_native_banner">Request Native Banner</string>
     <string name="request_native_video">Request Native Video</string>
-    <string name="request_pre_roll_video">Request Pre-Roll Video</string>
+    <string name="request_vast">Request VAST</string>
     <string name="request_standard_banner">Request Standard Banner</string>
     <string name="request_reward_video">Request Reward Video</string>
     <string name="request_reward_banner">Request Reward Banner</string>

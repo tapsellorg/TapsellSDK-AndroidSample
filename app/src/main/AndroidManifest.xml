@@ -54,9 +54,9 @@
             android:label="@string/standard_banner" />
 
         <activity
-            android:name=".activities.PreRollActivity"
+            android:name=".activities.VastActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:label="@string/pre_roll" />
+            android:label="@string/vast" />
 
     </application>
 

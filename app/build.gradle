@@ -35,7 +35,7 @@ android {
         buildConfigField "String", "TAPSELL_NATIVE_VIDEO", "\"5caaf094c1ed8b000149cee0\""
         buildConfigField "String", "TAPSELL_NATIVE_BANNER", "\"5caaf0aec1ed8b000149cee1\""
         buildConfigField "String", "TAPSELL_STANDARD_BANNER", "\"5ca8aca83a2e170001ef0071\""
-        buildConfigField "String", "TAPSELL_PRE_ROL_VIDEO", "\"5cac31e2b4ace90001836d64\""
+        buildConfigField "String", "TAPSELL_VAST", "\"5cac31e2b4ace90001836d64\""
     }
 
     buildTypes {
@@ -60,10 +60,10 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.fragment:fragment:1.1.0'
+    implementation 'androidx.fragment:fragment:1.2.1'
 
-    implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.4.3-Beta'
+    implementation 'ir.tapsell.sdk:tapsell-sdk-android:4.5.0'
 
-    implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.8.7'
+    implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.17.0'
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
 }

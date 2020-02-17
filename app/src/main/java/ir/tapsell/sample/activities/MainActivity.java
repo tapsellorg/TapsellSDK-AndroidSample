@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnPreRoll = findViewById(R.id.btnPreRoll);
+        Button btnVast = findViewById(R.id.btnVast);
         Button btnReward = findViewById(R.id.btnReward);
         Button btnStandard = findViewById(R.id.btnStandard);
         Button btnNative = findViewById(R.id.btnNative);
         Button btnInterstitial = findViewById(R.id.btnInterstitial);
 
-        btnPreRoll.setOnClickListener(this);
+        btnVast.setOnClickListener(this);
         btnReward.setOnClickListener(this);
         btnStandard.setOnClickListener(this);
         btnNative.setOnClickListener(this);
@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openActivity(RewardActivity.class);
                 break;
 
-            case R.id.btnPreRoll:
-                openActivity(PreRollActivity.class);
+            case R.id.btnVast:
+                openActivity(VastActivity.class);
                 break;
         }
     }
