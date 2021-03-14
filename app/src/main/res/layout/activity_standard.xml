@@ -12,7 +12,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:tapsell_banner_type="banner_320x50"
-        app:tapsell_zone_id="5ca8aca83a2e170001ef0071" />
+        app:tapsell_banner_type="banner_320x50" />
 
 </FrameLayout>
