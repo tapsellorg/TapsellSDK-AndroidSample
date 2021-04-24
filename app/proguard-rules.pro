@@ -101,3 +101,5 @@
     public static *** LogVerbose(...);
     public static *** LogWarn(...);
 }
+
+-keep public class com.bumptech.glide.**
