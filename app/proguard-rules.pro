@@ -1,52 +1,61 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in E:\Android\android-sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# Add any project specific keep showOptions here:
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
+##---------------Begin: proguard configuration for Gson  ----------
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
 -keepattributes Signature
--keepattributes *Annotation*
--keepattributes EnclosingMethod
--keepattributes InnerClasses
 
--keep class sun.misc.Unsafe { *; }
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
 -dontwarn sun.misc.**
+#-keep class com.google.gson.stream.** { *; }
+
+# Prevent proguard from stripping interface information from TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
 
+# Prevent R8 from leaving Data object members always null
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
+
+##---------------End: proguard configuration for Gson  ----------
+
+
+##---------------Begin: proguard configuration for Retrofit2  ----------
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
 # EnclosingMethod is required to use InnerClasses.
 -keepattributes Signature, InnerClasses, EnclosingMethod
+
+# Retrofit does reflection on method and parameter annotations.
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 
 # Retain service method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
 }
-
 # Ignore annotation used for build tooling.
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
 # Ignore JSR 305 annotations for embedding nullability information.
 -dontwarn javax.annotation.**
-
 # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
 -dontwarn kotlin.Unit
+# Top-level functions that can only be used by Kotlin.
+-dontwarn retrofit2.KotlinExtensions
+-dontwarn retrofit2.KotlinExtensions$*
+# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
+# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>
 
 # Top-level functions that can only be used by Kotlin.
 -dontwarn retrofit2.-KotlinExtensions
+
+##---------------End: proguard configuration for Retrofit2  ----------
+
+##---------------Begin: proguard configuration for okhttp3  ----------
 
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
@@ -60,52 +69,37 @@
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
 
-# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
--dontwarn org.codehaus.mojo.animal_sniffer.*
+##---------------End: proguard configuration for okhttp3  ----------
 
+##---------------Begin: proguard configuration for Tapsell Sdk  ----------
 
+# Application classes that will be serialized/deserialized over Gson
 -keepclassmembers enum * { *; }
--keep class **.R$* { *; }
 -keep interface ir.tapsell.sdk.NoProguard
+
+-keep interface ir.tapsell.sdk.NoNameProguard
 -keep class * implements ir.tapsell.sdk.NoProguard { *; }
--keep interface * extends ir.tapsell.sdk.NoProguard { *; }
--keep enum * extends ir.tapsell.sdk.NoProguard { *; }
--keepnames class * extends android.app.Activity
+
+-keep enum * implements ir.tapsell.sdk.NoProguard { *; }
+
+-keepnames class * implements ir.tapsell.sdk.NoNameProguard { *; }
+-keep class ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoader$Builder {*;}
+-keep class ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoader$Builder {*;}
+-keep interface com.android.vending.billing.IInAppBillingService
+-keep class * implements com.android.vending.billing.IInAppBillingService {*;}
+
 -keep class ir.tapsell.sdk.models.** { *; }
 
--keep class com.google.obf.** { *; }
--keep interface com.google.obf.** { *; }
+-keep class ir.tapsell.sdk.sentry.model.** {*;}
 
--keep class com.google.ads.interactivemedia.** { *; }
--keep interface com.google.ads.interactivemedia.** { *; }
-
-# For Google Play Services
--keep public class com.google.android.gms.ads.**{
-   public *;
-}
-
-# For old ads classes
--keep public class com.google.ads.**{
-   public *;
-}
-
-# Other required classes for Google Play Services
-# Read more at http://developer.android.com/google/play-services/setup.html
--keep class * extends java.util.ListResourceBundle {
-   protected Object[][] getContents();
-}
-
--keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
-   public static final *** NULL;
-}
-
--keepnames @com.google.android.gms.common.annotation.KeepName class *
--keepclassmembernames class * {
-   @com.google.android.gms.common.annotation.KeepName *;
-}
-
--keepnames class * implements android.os.Parcelable {
-   public static final ** CREATOR;
+# To Remove Logger Class (Todo: Replace Logger Class with LogUtils)
+-assumenosideeffects class ir.tapsell.sdk.logger.Logger {
+    public * ;
+    public static *** LogDebug(...);
+    public static *** LogError(...);
+    public static *** LogInfo(...);
+    public static *** LogVerbose(...);
+    public static *** LogWarn(...);
 }
 
 -keep public class com.bumptech.glide.**
