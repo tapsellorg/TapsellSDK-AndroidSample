@@ -13,7 +13,7 @@ public class TapsellApplication extends Application {
         super.onCreate();
 
         //Uncomment this part for testing on lower android versions
-        MultiDex.install(this);
+        //MultiDex.install(this);
         Tapsell.initialize(this, BuildConfig.TAPSELL_KEY);
     }
 }
