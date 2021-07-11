@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
+import ir.tapsell.sample.utils.Tools;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
@@ -72,7 +73,7 @@ public class InterstitialActivity extends AppCompatActivity implements View.OnCl
                         InterstitialActivity.this.adId = adId;
                         InterstitialActivity.this.zoneId = zoneId;
 
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(InterstitialActivity.this)) {
                             return;
                         }
 
@@ -82,7 +83,7 @@ public class InterstitialActivity extends AppCompatActivity implements View.OnCl
 
                     @Override
                     public void onError(String message) {
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(InterstitialActivity.this)) {
                             return;
                         }
                         Log.d(TAG, "on ad Error" + message);

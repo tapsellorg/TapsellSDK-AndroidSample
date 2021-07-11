@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
+import ir.tapsell.sample.utils.Tools;
 import ir.tapsell.sdk.AdRequestCallback;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerViewManager;
@@ -66,7 +67,7 @@ public class NativeBannerActivity extends AppCompatActivity implements View.OnCl
                     public void onResponse(String[] adId) {
                         Log.d(TAG, "onResponse");
 
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(NativeBannerActivity.this)) {
                             return;
                         }
 
@@ -77,7 +78,7 @@ public class NativeBannerActivity extends AppCompatActivity implements View.OnCl
 
                     @Override
                     public void onFailed(String message) {
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(NativeBannerActivity.this)) {
                             return;
                         }
 

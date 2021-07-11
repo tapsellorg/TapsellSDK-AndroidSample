@@ -22,14 +22,11 @@ public class NativeBannerInListActivity extends AppCompatActivity {
 
     private final static String TAG = "NativeBanner";
     private final int PAGE_SIZE = 20;
+    private final ArrayList<ItemList> items = new ArrayList<>();
     private int currentPage = 0;
     private boolean isLoading = false;
-
     private NativeBannerAdapter adapter;
-
     private RecyclerView rvItems;
-
-    private ArrayList<ItemList> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

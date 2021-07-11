@@ -16,7 +16,6 @@ import com.google.ads.interactivemedia.v3.api.AdErrorEvent;
 import com.google.ads.interactivemedia.v3.api.AdEvent;
 import com.google.ads.interactivemedia.v3.api.AdsLoader;
 import com.google.ads.interactivemedia.v3.api.AdsManager;
-import com.google.ads.interactivemedia.v3.api.AdsManagerLoadedEvent;
 import com.google.ads.interactivemedia.v3.api.AdsRequest;
 import com.google.ads.interactivemedia.v3.api.ImaSdkFactory;
 import com.google.ads.interactivemedia.v3.api.ImaSdkSettings;
@@ -78,18 +77,15 @@ public class VastActivity extends AppCompatActivity implements View.OnClickListe
         // Add listeners for when ads are loaded and for errors.
         adsLoader.addAdErrorListener(this);
         adsLoader.addAdsLoadedListener(
-                new AdsLoader.AdsLoadedListener() {
-                    @Override
-                    public void onAdsManagerLoaded(AdsManagerLoadedEvent adsManagerLoadedEvent) {
-                        // Ads were successfully loaded, so get the AdsManager instance.
-                        // AdsManager has events for ad playback and errors.
-                        adsManager = adsManagerLoadedEvent.getAdsManager();
+                adsManagerLoadedEvent -> {
+                    // Ads were successfully loaded, so get the AdsManager instance.
+                    // AdsManager has events for ad playback and errors.
+                    adsManager = adsManagerLoadedEvent.getAdsManager();
 
-                        // Attach event and error event listeners.
-                        adsManager.addAdErrorListener(VastActivity.this);
-                        adsManager.addAdEventListener(VastActivity.this);
-                        adsManager.init();
-                    }
+                    // Attach event and error event listeners.
+                    adsManager.addAdErrorListener(VastActivity.this);
+                    adsManager.addAdEventListener(VastActivity.this);
+                    adsManager.init();
                 });
 
         // Add listener for when the content video finishes.

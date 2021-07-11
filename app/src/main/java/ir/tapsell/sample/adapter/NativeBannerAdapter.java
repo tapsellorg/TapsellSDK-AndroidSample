@@ -6,16 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
-import ir.tapsell.sample.model.ItemList;
 import ir.tapsell.sample.enums.ListItemType;
+import ir.tapsell.sample.model.ItemList;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerViewManager;
 
@@ -25,7 +26,7 @@ public class NativeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int VIEW_TYPE_AD = 1;
     private final Context context;
     private final LayoutInflater inflater;
-    private List<ItemList> items;
+    private final List<ItemList> items;
 
     public NativeBannerAdapter(Context context) {
         this.context = context;
@@ -37,41 +38,6 @@ public class NativeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();
-    }
-
-    public class ItemHolder extends RecyclerView.ViewHolder {
-        AppCompatTextView tvTitle;
-
-        ItemHolder(View itemView) {
-            super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-        }
-
-        void bindView(int position) {
-            tvTitle.setText(items.get(position).title);
-        }
-    }
-
-    public class TapsellListItemAdHolder extends RecyclerView.ViewHolder {
-        private FrameLayout adContainer;
-        private TapsellNativeBannerViewManager nativeBannerViewManager;
-
-        TapsellListItemAdHolder(View itemView, Context context) {
-            super(itemView);
-            adContainer = itemView.findViewById(R.id.adContainer);
-            nativeBannerViewManager = new TapsellNativeBannerManager.Builder()
-                    .setParentView(adContainer)
-                    .setContentViewTemplate(R.layout.tapsell_content_banner_ad_template)
-                    .inflateTemplate(context);
-        }
-
-        void bindView(int position) {
-            TapsellNativeBannerManager.bindAd(
-                    context,
-                    nativeBannerViewManager,
-                    BuildConfig.TAPSELL_NATIVE_BANNER,
-                    items.get(position).id);
-        }
     }
 
     @NonNull
@@ -107,5 +73,39 @@ public class NativeBannerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         return items == null ? 0 : items.size();
+    }
+
+    public class ItemHolder extends RecyclerView.ViewHolder {
+        AppCompatTextView tvTitle;
+
+        ItemHolder(View itemView) {
+            super(itemView);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+        }
+
+        void bindView(int position) {
+            tvTitle.setText(items.get(position).title);
+        }
+    }
+
+    public class TapsellListItemAdHolder extends RecyclerView.ViewHolder {
+        private final TapsellNativeBannerViewManager nativeBannerViewManager;
+
+        TapsellListItemAdHolder(View itemView, Context context) {
+            super(itemView);
+            FrameLayout adContainer = itemView.findViewById(R.id.adContainer);
+            nativeBannerViewManager = new TapsellNativeBannerManager.Builder()
+                    .setParentView(adContainer)
+                    .setContentViewTemplate(R.layout.tapsell_content_banner_ad_template)
+                    .inflateTemplate(context);
+        }
+
+        void bindView(int position) {
+            TapsellNativeBannerManager.bindAd(
+                    context,
+                    nativeBannerViewManager,
+                    BuildConfig.TAPSELL_NATIVE_BANNER,
+                    items.get(position).id);
+        }
     }
 }

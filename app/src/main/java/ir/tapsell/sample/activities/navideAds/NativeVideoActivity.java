@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
+import ir.tapsell.sample.utils.Tools;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAd;
-import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdCompletionListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoadListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoader;
 
@@ -53,7 +53,7 @@ public class NativeVideoActivity extends AppCompatActivity implements View.OnCli
                 .loadAd(NativeVideoActivity.this, BuildConfig.TAPSELL_NATIVE_VIDEO, new TapsellNativeVideoAdLoadListener() {
                     @Override
                     public void onNoNetwork() {
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(NativeVideoActivity.this)) {
                             return;
                         }
 
@@ -63,7 +63,7 @@ public class NativeVideoActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void onNoAdAvailable() {
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(NativeVideoActivity.this)) {
                             return;
                         }
 
@@ -73,7 +73,7 @@ public class NativeVideoActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void onError(String error) {
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(NativeVideoActivity.this)) {
                             return;
                         }
 
@@ -83,19 +83,16 @@ public class NativeVideoActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void onRequestFilled(TapsellNativeVideoAd tapsellNativeVideoAd) {
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(NativeVideoActivity.this)) {
                             return;
                         }
 
                         Log.d(TAG, "onRequestFilled");
                         tvLog.append("\nonRequestFilled");
 
-                        tapsellNativeVideoAd.setCompletionListener(new TapsellNativeVideoAdCompletionListener() {
-                            @Override
-                            public void onAdShowFinished(String adId) {
-                                Log.e(TAG, "onAdShowFinished: " + adId);
-                                tvLog.append("\nonAdShowFinished");
-                            }
+                        tapsellNativeVideoAd.setCompletionListener(adId -> {
+                            Log.e(TAG, "onAdShowFinished: " + adId);
+                            tvLog.append("\nonAdShowFinished");
                         });
 
                         tapsellNativeVideoAd.addToParentView(adContainer);

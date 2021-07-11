@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
+import ir.tapsell.sample.utils.Tools;
 import ir.tapsell.sdk.Tapsell;
 import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.TapsellAdRequestOptions;
@@ -19,7 +20,6 @@ import ir.tapsell.sdk.TapsellShowOptions;
 public class RewardActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String TAG = "RewardActivity";
-    private Button btnShow;
     private TextView tvLog;
     private String adId;
     private String zoneId;
@@ -33,7 +33,7 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initView() {
         Button btnRequest = findViewById(R.id.btnRequest);
-        btnShow = findViewById(R.id.btnShow);
+        Button btnShow = findViewById(R.id.btnShow);
         tvLog = findViewById(R.id.tvLog);
 
         btnRequest.setOnClickListener(this);
@@ -64,7 +64,7 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
                         Log.d(TAG, "on ad AdAvailable");
                         RewardActivity.this.adId = adId;
                         RewardActivity.this.zoneId = BuildConfig.TAPSELL_REWARDED_VIDEO;
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(RewardActivity.this)) {
                             return;
                         }
 
@@ -73,7 +73,7 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
 
                     @Override
                     public void onError(String message) {
-                        if (isDestroyed()) {
+                        if (Tools.isActivityDestroyed(RewardActivity.this)) {
                             return;
                         }
                         Log.d(TAG, "on ad Error" + message);
