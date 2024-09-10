@@ -13,6 +13,7 @@ import ir.tapsell.sdk.bannerads.TapsellBannerViewEventListener;
 
 public class StandardActivity extends AppCompatActivity {
 
+    private static final String TAG = "StandardActivity";
     private TapsellBannerView tapsellBannerView;
 
     @Override
@@ -31,25 +32,30 @@ public class StandardActivity extends AppCompatActivity {
             @Override
             public void onNoNetwork() {
 
-                Log.e("onNoNetwork", "called!");
+                Log.e(TAG, "onNoNetwork");
             }
 
             @Override
             public void onError(String errorMessage) {
 
-                Log.e("onError", errorMessage);
+                Log.e(TAG, "onError" + errorMessage);
             }
 
             @Override
             public void onRequestFilled() {
 
-                Log.e("onRequestFilled", "called!");
+                Log.e(TAG, "onRequestFilled");
             }
 
             @Override
             public void onHideBannerView() {
 
-                Log.e("onHideBannerView", "called!");
+                Log.e(TAG, "onHideBannerView");
+            }
+
+            @Override
+            public void onAdClicked() {
+                Log.d(TAG, "onAdClicked");
             }
         });
 

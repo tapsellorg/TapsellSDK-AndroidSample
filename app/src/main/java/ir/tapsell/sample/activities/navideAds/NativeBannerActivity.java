@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
 import ir.tapsell.sample.utils.Tools;
-import ir.tapsell.sdk.AdRequestCallback;
+import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerViewManager;
 
@@ -21,7 +21,7 @@ public class NativeBannerActivity extends AppCompatActivity implements View.OnCl
     private final static String TAG = "NativeBannerActivity";
     private Button btnShow;
     private TapsellNativeBannerViewManager nativeBannerViewManager;
-    private String[] adId = null;
+    private String adId = null;
     private TextView tvLog;
 
     @Override
@@ -62,9 +62,9 @@ public class NativeBannerActivity extends AppCompatActivity implements View.OnCl
 
     private void requestNativeBannerAd() {
         TapsellNativeBannerManager.getAd(this, BuildConfig.TAPSELL_NATIVE_BANNER,
-                new AdRequestCallback() {
+                new TapsellAdRequestListener() {
                     @Override
-                    public void onResponse(String[] adId) {
+                    public void onAdAvailable(String adId) {
                         Log.d(TAG, "onResponse");
 
                         if (Tools.isActivityDestroyed(NativeBannerActivity.this)) {
@@ -77,7 +77,7 @@ public class NativeBannerActivity extends AppCompatActivity implements View.OnCl
                     }
 
                     @Override
-                    public void onFailed(String message) {
+                    public void onError(String message) {
                         if (Tools.isActivityDestroyed(NativeBannerActivity.this)) {
                             return;
                         }
@@ -97,7 +97,7 @@ public class NativeBannerActivity extends AppCompatActivity implements View.OnCl
                 this,
                 nativeBannerViewManager,
                 BuildConfig.TAPSELL_NATIVE_BANNER,
-                adId[0]);
+                adId);
 
         btnShow.setEnabled(false);
     }

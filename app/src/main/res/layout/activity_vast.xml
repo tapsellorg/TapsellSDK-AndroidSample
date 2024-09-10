@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintTop_toBottomOf="@+id/edt_zone"
         android:id="@+id/btnRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,29 +17,47 @@
         android:text="@string/request_vast"
         android:textAllCaps="false" />
 
-    <FrameLayout
-        android:id="@+id/videoPlayerWithAdPlayback"
+    <LinearLayout
+        android:id="@+id/preroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/tvLog"
-        android:layout_below="@id/btnRequest"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/tvLog"
+        app:layout_constraintTop_toBottomOf="@+id/btnRequest">
 
-        <VideoView
-            android:id="@+id/videoPlayer"
+        <RelativeLayout
+            android:id="@+id/video_player_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="200dp">
 
-    </FrameLayout>
 
-    <TextView
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/exo_player"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:resize_mode="fill" />
+
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/companion_ad_slot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvLog"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="bottom" />
+        android:layout_height="0dp"
+        android:gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preroll_container"
+        tools:text="Log" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

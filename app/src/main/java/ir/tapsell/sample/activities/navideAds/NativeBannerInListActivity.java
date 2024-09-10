@@ -15,7 +15,7 @@ import ir.tapsell.sample.R;
 import ir.tapsell.sample.adapter.NativeBannerAdapter;
 import ir.tapsell.sample.enums.ListItemType;
 import ir.tapsell.sample.model.ItemList;
-import ir.tapsell.sdk.AdRequestCallback;
+import ir.tapsell.sdk.TapsellAdRequestListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeBannerManager;
 
 public class NativeBannerInListActivity extends AppCompatActivity {
@@ -97,23 +97,23 @@ public class NativeBannerInListActivity extends AppCompatActivity {
 
     private void getNativeBannerAd() {
         TapsellNativeBannerManager.getAd(this, BuildConfig.TAPSELL_NATIVE_BANNER,
-                new AdRequestCallback() {
+                new TapsellAdRequestListener() {
                     @Override
-                    public void onResponse(String[] adIds) {
-                        showAd(adIds);
+                    public void onAdAvailable(String adId) {
+                        showAd(adId);
                         Log.d(TAG, "get ad success");
                     }
 
                     @Override
-                    public void onFailed(String s) {
+                    public void onError(String s) {
                         Log.d(TAG, "get ad failed");
                     }
                 });
     }
 
-    private void showAd(String[] adIds) {
+    private void showAd(String adId) {
         ItemList item = new ItemList();
-        item.id = adIds[0];
+        item.id = adId;
         item.listItemType = ListItemType.AD;
         items.add(item);
         adapter.updateItem(items);

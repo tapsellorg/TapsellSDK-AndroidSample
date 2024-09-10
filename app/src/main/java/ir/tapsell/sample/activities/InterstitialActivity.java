@@ -116,6 +116,12 @@ public class InterstitialActivity extends AppCompatActivity implements View.OnCl
                         tvLog.append("\non error " + message);
                     }
 
+                    @Override
+                    public void onAdClicked() {
+                        super.onAdClicked();
+                        Log.d(TAG, "onAdClicked");
+                        tvLog.append("\nonAdClicked ");
+                    }
                 });
     }
 }

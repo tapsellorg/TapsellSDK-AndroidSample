@@ -1,201 +1,142 @@
 package ir.tapsell.sample.activities;
 
-import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.ads.interactivemedia.v3.api.AdDisplayContainer;
-import com.google.ads.interactivemedia.v3.api.AdErrorEvent;
-import com.google.ads.interactivemedia.v3.api.AdEvent;
-import com.google.ads.interactivemedia.v3.api.AdsLoader;
-import com.google.ads.interactivemedia.v3.api.AdsManager;
-import com.google.ads.interactivemedia.v3.api.AdsRequest;
-import com.google.ads.interactivemedia.v3.api.ImaSdkFactory;
-import com.google.ads.interactivemedia.v3.api.ImaSdkSettings;
-import com.google.ads.interactivemedia.v3.api.player.ContentProgressProvider;
-import com.google.ads.interactivemedia.v3.api.player.VideoProgressUpdate;
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.ui.PlayerView;
 
 import ir.tapsell.sample.BuildConfig;
 import ir.tapsell.sample.R;
 import ir.tapsell.sdk.Tapsell;
+import ir.tapsell.sdk.preroll.TapsellPrerollAd;
+import ir.tapsell.sdk.preroll.TapsellPrerollAdsLoaderListener;
+import ir.tapsell.sdk.preroll.ima.ImaAdsLoader;
 
-public class VastActivity extends AppCompatActivity implements View.OnClickListener,
-        AdEvent.AdEventListener, AdErrorEvent.AdErrorListener {
+public class VastActivity extends AppCompatActivity {
 
-    private static final String TAG = "VASTActivity";
-    // Whether an ad is displayed.
-    private boolean isAdDisplayed;
+    private static final String TAG = "VastActivity";
+    private static final String SAMPLE_VIDEO_URL = "https://storage.backtory.com/tapsell-server/sdk/VASTContentVideo.mp4";
 
-    // The video player.
-    private VideoView videoView;
+    private TapsellPrerollAd tapsellPrerollAd;
+    private ImaAdsLoader adsLoader;
+    private PlayerView playerView;
+    private ExoPlayer exoPlayer;
     private TextView tvLog;
-    // The play button to trigger the ad request.
-
-    // The container for the ad's UI.
-    private ViewGroup adUiContainer;
-
-    // Factory class for creating SDK objects.
-    private ImaSdkFactory imaSdkFactory;
-
-    // The AdsLoader instance exposes the requestAds method.
-    private AdsLoader adsLoader;
-
-    // AdsManager exposes methods to control ad playback and listen to ad events.
-    private AdsManager adsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vast);
 
-        Button btnRequest = findViewById(R.id.btnRequest);
-        btnRequest.setOnClickListener(this);
+        ViewGroup adUiContainer = findViewById(R.id.video_player_container);
+        ViewGroup companionContainer = findViewById(R.id.companion_ad_slot);
+        playerView = findViewById(R.id.exo_player);
 
-
-        videoView = findViewById(R.id.videoPlayer);
-        adUiContainer = findViewById(R.id.videoPlayerWithAdPlayback);
         tvLog = findViewById(R.id.tvLog);
+        Button btnRequest = findViewById(R.id.btnRequest);
 
-        // Create an AdsLoader.
-        imaSdkFactory = ImaSdkFactory.getInstance();
-        AdDisplayContainer adDisplayContainer =
-                ImaSdkFactory.createAdDisplayContainer(
-                        adUiContainer,
-                        ImaSdkFactory.createSdkOwnedPlayer(this, adUiContainer));
-
-        ImaSdkSettings settings = imaSdkFactory.createImaSdkSettings();
-        settings.setLanguage("fa");
-        adsLoader = imaSdkFactory.createAdsLoader(this, settings, adDisplayContainer);
-
-        // Add listeners for when ads are loaded and for errors.
-        adsLoader.addAdErrorListener(this);
-        adsLoader.addAdsLoadedListener(
-                adsManagerLoadedEvent -> {
-                    // Ads were successfully loaded, so get the AdsManager instance.
-                    // AdsManager has events for ad playback and errors.
-                    adsManager = adsManagerLoadedEvent.getAdsManager();
-
-                    // Attach event and error event listeners.
-                    adsManager.addAdErrorListener(VastActivity.this);
-                    adsManager.addAdEventListener(VastActivity.this);
-                    adsManager.init();
-                });
-
-        // Add listener for when the content video finishes.
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.reset();
-                mediaPlayer.setDisplay(videoView.getHolder());
-
-                if (adsLoader != null) {
-                    adsLoader.contentComplete();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        videoView.setVideoPath(
-                "https://storage.backtory.com/tapsell-server/sdk/VASTContentVideo.mp4");
-        requestAds(Tapsell.getVastTag(BuildConfig.TAPSELL_VAST));
-    }
-
-
-    private void requestAds(String adTagUrl) {
-        // Create the ads request.
-        AdsRequest request = imaSdkFactory.createAdsRequest();
-        request.setAdTagUrl(adTagUrl);
-        request.setContentProgressProvider(
-                new ContentProgressProvider() {
+        tapsellPrerollAd = new TapsellPrerollAd.Builder(this)
+                .setVideoPlayer(playerView)
+                .setVideoPath(SAMPLE_VIDEO_URL)
+                .setAdContainer(adUiContainer)
+                .setCompanionContainer(companionContainer)
+                .addAdsLoaderListener(new TapsellPrerollAdsLoaderListener() {
                     @Override
-                    public VideoProgressUpdate getContentProgress() {
-                        if (isAdDisplayed || videoView == null || videoView.getDuration() <= 0) {
-                            return VideoProgressUpdate.VIDEO_TIME_NOT_READY;
-                        }
-                        return new VideoProgressUpdate(
-                                videoView.getCurrentPosition(), videoView.getDuration());
+                    public void onAdsLoaderCreated(ImaAdsLoader adsLoader) {
+                        Log.d(TAG, "onAdsLoaderCreated");
+                        VastActivity.this.adsLoader = adsLoader;
+                        initializePlayer();
                     }
-                });
+                })
+                .addEventListener(adEvent -> {
+                            Log.i(TAG, "Event: " + adEvent.getType());
+                            tvLog.append(adEvent.getType().name() + "\n");
+                        }
+                ).addErrorListener(adErrorEvent -> {
+                            Log.e(TAG, "Ad Error: " + adErrorEvent.getError().getMessage());
+                            tvLog.append(adErrorEvent.getError().getMessage() + "\n");
+                        }
+                ).build();
 
-        // Request the ad. After the ad is loaded, onAdsManagerLoaded() will be called.
-        adsLoader.requestAds(request);
+
+        btnRequest.setOnClickListener(v -> requestAd());
     }
 
-    @Override
-    public void onAdEvent(AdEvent adEvent) {
-        Log.i(TAG, "Event: " + adEvent.getType());
-
-        tvLog.append(adEvent.getType().name() + "\n");
-        // These are the suggested event types to handle. For full list of all ad event
-        // types, see the documentation for AdEvent.AdEventType.
-        switch (adEvent.getType()) {
-            case LOADED:
-                // AdEventType.LOADED will be fired when ads are ready to be played.
-                // AdsManager.start() begins ad playback. This method is ignored for VMAP or
-                // ad rules playlists, as the SDK will automatically start executing the
-                // playlist.
-                adsManager.start();
-                break;
-
-            case CONTENT_PAUSE_REQUESTED:
-                // AdEventType.CONTENT_PAUSE_REQUESTED is fired immediately before a video
-                // ad is played.
-                isAdDisplayed = true;
-                videoView.pause();
-                break;
-
-            case CONTENT_RESUME_REQUESTED:
-                // AdEventType.CONTENT_RESUME_REQUESTED is fired when the ad is completed
-                // and you should start playing your content.
-                isAdDisplayed = false;
-                videoView.start();
-                break;
-
-            case ALL_ADS_COMPLETED:
-                if (adsManager != null) {
-                    adsManager.destroy();
-                    adsManager = null;
-                }
-                break;
-
-            default:
-                break;
+    private void initializePlayer() {
+        if (adsLoader == null) {
+            Log.w(TAG, "initializePlayer failed: adsLoader is null");
+            return;
         }
+
+        if (exoPlayer != null) {
+            releasePlayer();
+        }
+
+        // Set up the factory for media sources, passing the ads loader and ad view providers.
+        DefaultMediaSourceFactory mediaSourceFactory =
+                new DefaultMediaSourceFactory(this)
+                        .setLocalAdInsertionComponents(unusedAdTagUri -> adsLoader, playerView);
+
+        // Create an ExoPlayer and set it as the player for content and ads.
+        exoPlayer = new ExoPlayer.Builder(this).setMediaSourceFactory(mediaSourceFactory).build();
+        playerView.setPlayer(exoPlayer);
+        adsLoader.setPlayer(exoPlayer);
+
+        // Set PlayWhenReady. If true, content and ads will autoplay.
+        exoPlayer.setPlayWhenReady(true);
     }
 
-    @Override
-    public void onAdError(AdErrorEvent adErrorEvent) {
-        tvLog.append(adErrorEvent.getError().getMessage() + "\n");
-        Log.e(TAG, "Ad Error: " + adErrorEvent.getError().getMessage());
-        videoView.start();
+
+    private void requestAd() {
+        tvLog.setText("");
+        Uri contentUri = Uri.parse(SAMPLE_VIDEO_URL);
+        Uri adTagUri = Uri.parse(Tapsell.getVastTag(BuildConfig.TAPSELL_VAST));
+
+        MediaItem.AdsConfiguration adsConfiguration = new MediaItem.AdsConfiguration.Builder(adTagUri).build();
+        MediaItem mediaItem = new MediaItem.Builder().setUri(contentUri).setAdsConfiguration(adsConfiguration).build();
+        exoPlayer.setMediaItem(mediaItem);
+        exoPlayer.prepare();
+    }
+
+    private void releasePlayer() {
+        playerView.setPlayer(null);
+        exoPlayer.release();
+        exoPlayer = null;
     }
 
     @Override
     public void onResume() {
-        if (adsManager != null && isAdDisplayed) {
-            adsManager.resume();
-        } else {
-            videoView.start();
-        }
         super.onResume();
+        if (exoPlayer == null) {
+            initializePlayer();
+        }
+        if (playerView != null) {
+            playerView.onResume();
+        }
+        if (tapsellPrerollAd != null) {
+            tapsellPrerollAd.resumeAd();
+        }
     }
 
     @Override
     public void onPause() {
-        if (adsManager != null && isAdDisplayed) {
-            adsManager.pause();
-        } else {
-            videoView.pause();
-        }
         super.onPause();
+        playerView.onPause();
+        tapsellPrerollAd.pauseAd();
+    }
+
+    @Override
+    protected void onDestroy() {
+        tapsellPrerollAd.destroy();
+        releasePlayer();
+        super.onDestroy();
     }
 }

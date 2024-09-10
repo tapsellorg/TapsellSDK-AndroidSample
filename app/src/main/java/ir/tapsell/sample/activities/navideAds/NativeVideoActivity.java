@@ -15,6 +15,7 @@ import ir.tapsell.sample.utils.Tools;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAd;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoadListener;
 import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoader;
+import ir.tapsell.sdk.nativeads.TapsellNativeVideoAdShowListener;
 
 public class NativeVideoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -90,9 +91,18 @@ public class NativeVideoActivity extends AppCompatActivity implements View.OnCli
                         Log.d(TAG, "onRequestFilled");
                         tvLog.append("\nonRequestFilled");
 
-                        tapsellNativeVideoAd.setCompletionListener(adId -> {
-                            Log.e(TAG, "onAdShowFinished: " + adId);
-                            tvLog.append("\nonAdShowFinished");
+                        tapsellNativeVideoAd.setShowListener(new TapsellNativeVideoAdShowListener() {
+                            @Override
+                            public void onAdFinished(String adId) {
+                                Log.e(TAG, "onAdShowFinished: " + adId);
+                                tvLog.append("\nonAdShowFinished");
+                            }
+
+                            @Override
+                            public void onAdClicked() {
+                                Log.e(TAG, "onAdClicked: ");
+                                tvLog.append("\nonAdClicked");
+                            }
                         });
 
                         tapsellNativeVideoAd.addToParentView(adContainer);

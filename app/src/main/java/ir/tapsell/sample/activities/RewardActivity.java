@@ -111,6 +111,13 @@ public class RewardActivity extends AppCompatActivity implements View.OnClickLis
                         Log.d(TAG, "on Rewarded " + completed);
                         tvLog.append("\non Rewarded " + completed);
                     }
+
+                    @Override
+                    public void onAdClicked() {
+                        super.onAdClicked();
+                        Log.d(TAG, "onAdClicked");
+                        tvLog.append("\nonAdClicked ");
+                    }
                 });
     }
 
