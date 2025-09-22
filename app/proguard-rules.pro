@@ -75,31 +75,9 @@
 
 # Application classes that will be serialized/deserialized over Gson
 -keepclassmembers enum * { *; }
--keep interface ir.tapsell.sdk.NoProguard
-
--keep interface ir.tapsell.sdk.NoNameProguard
--keep class * implements ir.tapsell.sdk.NoProguard { *; }
-
--keep enum * implements ir.tapsell.sdk.NoProguard { *; }
-
--keepnames class * implements ir.tapsell.sdk.NoNameProguard { *; }
--keep class ir.tapsell.sdk.nativeads.TapsellNativeVideoAdLoader$Builder {*;}
--keep class ir.tapsell.sdk.nativeads.TapsellNativeBannerAdLoader$Builder {*;}
 -keep interface com.android.vending.billing.IInAppBillingService
 -keep class * implements com.android.vending.billing.IInAppBillingService {*;}
 
--keep class ir.tapsell.sdk.models.** { *; }
-
--keep class ir.tapsell.sdk.sentry.model.** {*;}
-
-# To Remove Logger Class (Todo: Replace Logger Class with LogUtils)
--assumenosideeffects class ir.tapsell.sdk.logger.Logger {
-    public * ;
-    public static *** LogDebug(...);
-    public static *** LogError(...);
-    public static *** LogInfo(...);
-    public static *** LogVerbose(...);
-    public static *** LogWarn(...);
-}
-
 -keep public class com.bumptech.glide.**
+
+-keep class ir.tapsell.sdk.** {*;}
