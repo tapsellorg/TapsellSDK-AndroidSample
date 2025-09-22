@@ -2,20 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        debug {
-            storeFile file("debug.keystore")
+        devKey {
+            storeFile file("dev.keystore")
             storePassword "tapsell"
             keyAlias "tapsell"
             keyPassword "tapsell"
-        }
-
-        release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
         }
     }
 
@@ -47,13 +38,13 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.devKey
         }
 
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.devKey
         }
     }
     splits {
